@@ -627,7 +627,6 @@ class StorageManager(private val context: Context) {
                                 <div class="step-time">${photoDataList.firstOrNull()?.get("dateTime") ?: ""}</div>
                                 <div class="barcode-container">
                                     ${if (barcodeBase64.isNotBlank()) "<img src=\"$barcodeBase64\" alt=\"Barcode\" />" else ""}
-                                    <span>$barcodeStr</span>
                                 </div>
                             </div>
 
@@ -643,8 +642,8 @@ class StorageManager(private val context: Context) {
                                 </div>
                                 <div class="step-details">
                                     <div class="detail-row">
-                                        <span class="detail-lbl">Billing / Resi No.:</span>
-                                        <span class="detail-val">$barcodeStr</span>
+                                        <span class="detail-lbl">ID Bukti:</span>
+                                        <span class="detail-val">${evidence.evidenceId}</span>
                                     </div>
                                     <div class="detail-row">
                                         <span class="detail-lbl">Shipment / ID Bukti:</span>

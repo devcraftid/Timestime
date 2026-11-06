@@ -312,20 +312,12 @@ object WatermarkRenderer {
             val barcodeBmp = QrCodeGenerator.generateBarcodeBitmap(data.evidenceId, 280, 50)
             if (barcodeBmp != null) {
                 val barcodeW = (180f * baseScale).coerceAtMost(qrInfoMaxW)
-                val barcodeH = 32f * baseScale
+                val barcodeH = 34f * baseScale
                 val barcodeRect = RectF(qrInfoX, currentY + 12f * baseScale, qrInfoX + barcodeW, currentY + 12f * baseScale + barcodeH)
 
                 val bcBgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.WHITE; style = Paint.Style.FILL }
                 canvas.drawRoundRect(barcodeRect, 4f * baseScale, 4f * baseScale, bcBgPaint)
                 canvas.drawBitmap(barcodeBmp, null, barcodeRect, Paint(Paint.ANTI_ALIAS_FLAG))
-
-                val bcTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = Color.WHITE
-                    textSize = 10f * baseScale
-                    typeface = Typeface.create(Typeface.MONOSPACE, Typeface.BOLD)
-                    setShadowLayer(shadowRadius, shadowDx, shadowDy, shadowColor)
-                }
-                canvas.drawText("NO. RESI: ${data.evidenceId}", qrInfoX, barcodeRect.bottom + 15f * baseScale, bcTextPaint)
             }
         }
 

@@ -336,7 +336,7 @@
             <!-- Right: Details & Barcode -->
             <div class="details-container">
                 <div class="section-title">
-                    <span>Barcode & No. Resi Paket</span>
+                    <span>Barcode Paket</span>
                     <span style="font-size: 11px; color: var(--accent-green); font-weight: bold;">&#9679; RESMI</span>
                 </div>
 
@@ -422,16 +422,14 @@
         document.getElementById('sessionBadge').innerText = 'ID: ' + evidenceId;
         document.getElementById('valEvidenceId').innerText = evidenceId;
 
-        // Render Barcode Code 128
+        // Render Barcode Code 128 (Hanya Barcode Saja)
         try {
             JsBarcode("#barcodeSvg", evidenceId, {
                 format: "CODE128",
                 lineColor: "#000",
                 width: 2,
                 height: 50,
-                displayValue: true,
-                fontSize: 13,
-                fontOptions: "bold"
+                displayValue: false
             });
         } catch(e) {}
 
