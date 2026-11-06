@@ -454,9 +454,22 @@
 
             if (supabaseClient) {
                 try {
-                    const { data: sData } = await supabaseClient.from('evidence_sessions').select('*').eq('session_id', evidenceId).single();
-                    sessionData = sData;
-                    const { data: mData } = await supabaseClient.from('evidence_media').select('*').eq('session_id', evidenceId).order('session_index', { ascending: true });
+                    const { data: sDataList, error: sErr } = await supabaseClient
+                        .from('evidence_sessions')
+                        .select('*')
+                        .eq('session_id', evidenceId)
+                        .limit(1);
+
+                    if (sDataList && sDataList.length > 0) {
+                        sessionData = sDataList[0];
+                    }
+
+                    const { data: mData } = await supabaseClient
+                        .from('evidence_media')
+                        .select('*')
+                        .eq('session_id', evidenceId)
+                        .order('session_index', { ascending: true });
+
                     if (mData && mData.length > 0) mediaItems = mData;
                 } catch(err) {
                     console.log('Supabase fetch error, fallback to parameters:', err);
