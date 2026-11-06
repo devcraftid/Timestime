@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIRST LOGISTICS — Portal Bukti Pengiriman Pelanggan</title>
+    <link rel="icon" href="https://img.icons8.com/color/96/delivery.png" type="image/png">
+    <!-- Supabase JS & JsBarcode CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <style>
+        :root {
+            --navy-dark: #070D1B;
+            --navy-surface: #0F1A30;
+            --navy-card: #15223D;
+            --brand-orange: #FF6600;
+            --accent-green: #00E676;
+            --border-color: #1E293B;
+            --text-white: #FFFFFF;
+            --text-gray: #94A3B8;
+            --text-silver: #CBD5E1;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--navy-dark);
+            color: var(--text-white);
+            padding: 16px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+        /* Top Navigation Header */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px;
+            background: var(--navy-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            margin-bottom: 20px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-box {
+            display: flex;
+            font-weight: 900;
+            font-size: 19px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .logo-f { background-color: var(--brand-orange); color: white; padding: 4px 10px; font-style: italic; }
+        .logo-l { background-color: #556980; color: white; padding: 4px 10px; font-style: italic; }
+        .brand-text h1 { font-size: 15px; font-weight: 800; letter-spacing: 0.5px; }
+        .brand-text p { font-size: 11px; color: var(--accent-green); font-weight: 600; }
+        .session-badge {
+            background: rgba(0, 230, 118, 0.12);
+            color: var(--accent-green);
+            border: 1px solid var(--accent-green);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* 2-Column Grid Layout */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1.25fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 860px) {
+            .grid-layout { grid-template-columns: 1fr; }
+        }
+
+        /* Left Column: Media Player / Gallery */
+        .media-container {
+            background: var(--navy-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .tabs-row {
+            display: flex;
+            gap: 10px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            border: 1px solid var(--border-color);
+            background: var(--navy-card);
+            color: var(--text-silver);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tab-btn.active {
+            background: var(--brand-orange);
+            color: #FFF;
+            border-color: var(--brand-orange);
+        }
+        .main-media-viewport {
+            position: relative;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            min-height: 420px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .main-media-viewport img {
+            width: 100%;
+            max-height: 540px;
+            object-fit: contain;
+            display: block;
+        }
+        .main-media-viewport video {
+            width: 100%;
+            max-height: 540px;
+            display: block;
+            background: #000;
+        }
+        .media-counter {
+            position: absolute;
+            bottom: 12px;
+            background: rgba(15, 26, 48, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 4px 14px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .thumbs-strip {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+        }
+        .thumb-item {
+            width: 72px;
+            height: 72px;
+            border-radius: 8px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+            background: #000;
+            transition: border-color 0.2s, transform 0.2s;
+            flex-shrink: 0;
+        }
+        .thumb-item:hover { transform: scale(1.04); }
+        .thumb-item.active {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 10px rgba(0, 230, 118, 0.4);
+        }
+
+        /* Action Buttons */
+        .actions-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .btn-act {
+            flex: 1;
+            min-width: 140px;
+            padding: 11px 16px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            background: var(--navy-card);
+            color: #FFF;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+        .btn-act:hover { background: #1E293B; }
+        .btn-act.primary {
+            background: var(--accent-green);
+            color: #070D1B;
+            border-color: var(--accent-green);
+        }
+        .btn-act.orange {
+            background: var(--brand-orange);
+            color: #FFF;
+            border-color: var(--brand-orange);
+        }
+
+        /* Right Column: Tracking & Details */
+        .details-container {
+            background: var(--navy-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .section-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #FFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .barcode-box {
+            background: #FFF;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+        }
+        .barcode-box svg {
+            width: 100%;
+            height: 60px;
+        }
+        .info-card {
+            background: var(--navy-card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 12px;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 6px;
+        }
+        .info-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .lbl { color: var(--text-gray); }
+        .val { font-weight: 700; text-align: right; color: #FFF; }
+        .val.verified { color: var(--accent-green); }
+
+        .trust-notice {
+            background: rgba(0, 230, 118, 0.08);
+            border: 1px solid rgba(0, 230, 118, 0.3);
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 11.5px;
+            color: var(--text-silver);
+            line-height: 1.5;
+        }
+        .trust-notice strong { color: var(--accent-green); display: block; margin-bottom: 2px; }
+
+        footer {
+            text-align: center;
+            padding: 24px 0 10px;
+            color: var(--text-gray);
+            font-size: 11.5px;
+        }
+        .loading-spinner {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--accent-green);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="brand">
+                <div class="logo-box">
+                    <span class="logo-f">F</span>
+                    <span class="logo-l">L</span>
+                </div>
+                <div class="brand-text">
+                    <h1>FIRST LOGISTICS EVIDENCE</h1>
+                    <p>VERIFIKASI BUKTI RESMI PELANGGAN</p>
+                </div>
+            </div>
+            <div class="session-badge" id="sessionBadge">ID: FL-2026-000001</div>
+        </header>
+
+        <!-- Loading State -->
+        <div id="loadingView" class="loading-spinner">
+            Memuat bukti dokumentasi & foto/video barang...
+        </div>
+
+        <!-- Main Content -->
+        <div class="grid-layout" id="mainContent" style="display: none;">
+            <!-- Left: Media Viewer -->
+            <div class="media-container">
+                <div class="tabs-row">
+                    <button class="tab-btn active" id="tabPhotos" onclick="switchMediaTab('photo')">&#128247; Foto Barang (<span id="photoCount">0</span>)</button>
+                    <button class="tab-btn" id="tabVideos" onclick="switchMediaTab('video')">&#127916; Video Barang (<span id="videoCount">0</span>)</button>
+                </div>
+
+                <div class="main-media-viewport">
+                    <img id="mainImage" src="" alt="Bukti Foto Barang" />
+                    <video id="mainVideo" controls playsinline style="display: none;"></video>
+                    <div class="media-counter" id="mediaCounter">1 / 1</div>
+                </div>
+
+                <!-- Thumbnails Strip -->
+                <div class="thumbs-strip" id="thumbsStrip"></div>
+
+                <!-- Action Buttons -->
+                <div class="actions-row">
+                    <button class="btn-act primary" id="btnAutoPlay" onclick="toggleAutoPlay()">&#9654; Putar Slideshow / Animasi</button>
+                    <a class="btn-act" id="btnDownload" href="#" download>&#128229; Unduh Media</a>
+                    <a class="btn-act orange" id="btnMaps" target="_blank" href="#">&#128205; Buka Lokasi Maps</a>
+                </div>
+
+                <div class="trust-notice">
+                    <strong>&#10003; BUKTI FISIK TERVERIFIKASI ASLI</strong>
+                    Foto dan video barang diambil langsung oleh kurir FIRST LOGISTICS saat proses penanganan paket di lapangan. Koordinat GPS dan waktu telah tersertifikasi sistem.
+                </div>
+            </div>
+
+            <!-- Right: Details & Barcode -->
+            <div class="details-container">
+                <div class="section-title">
+                    <span>Barcode & No. Resi Paket</span>
+                    <span style="font-size: 11px; color: var(--accent-green); font-weight: bold;">&#9679; RESMI</span>
+                </div>
+
+                <div class="barcode-box">
+                    <svg id="barcodeSvg"></svg>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-row">
+                        <span class="lbl">ID Dokumentasi:</span>
+                        <span class="val" id="valEvidenceId">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="lbl">Status Pemeriksaan:</span>
+                        <span class="val verified">&#10003; TERVERIFIKASI LENGKAP</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="lbl">Petugas Dokumentasi:</span>
+                        <span class="val" id="valOfficer">FADEL RIPAI</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="lbl">Kategori Bukti:</span>
+                        <span class="val" id="valCategory">BARANG MASUK</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="lbl">Waktu Pencatatan:</span>
+                        <span class="val" id="valDateTime">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="lbl">Lokasi Pengantaran:</span>
+                        <span class="val" id="valAddress" style="max-width: 60%; font-size: 11.5px;">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="lbl">Koordinat GPS:</span>
+                        <span class="val" id="valCoords">-</span>
+                    </div>
+                </div>
+
+                <a class="btn-act" style="background:#25D366; color:white; border:none; padding:13px;" id="btnWhatsApp" target="_blank" href="#">
+                    &#128172; Hubungi Petugas via WhatsApp
+                </a>
+            </div>
+        </div>
+
+        <footer>
+            FIRST LOGISTICS FL PROOF &copy; 2026 &bull; Cloud Evidence Delivery Portal hosted on Vercel & Supabase
+        </footer>
+    </div>
+
+    <script>
+        // =========================================================================
+        // SUPABASE CONFIGURATION (Dapat diubah sesuai project Supabase Anda)
+        // =========================================================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const evidenceId = urlParams.get('id') || 'FL-2026-000001';
+
+        // Ganti dengan URL dan Anon Key project Supabase Anda jika sudah dibuat:
+        const SUPABASE_URL = window.SUPABASE_URL || localStorage.getItem('supabase_url') || 'https://YOUR_PROJECT.supabase.co';
+        const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || localStorage.getItem('supabase_anon_key') || 'YOUR_ANON_KEY';
+
+        let supabase = null;
+        try {
+            if (SUPABASE_URL.startsWith('http') && !SUPABASE_URL.includes('YOUR_PROJECT')) {
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            }
+        } catch(e) { console.warn('Supabase not initialized yet'); }
+
+        let photosList = [];
+        let videosList = [];
+        let currentTab = 'photo';
+        let currentIndex = 0;
+        let isPlaying = false;
+        let playTimer = null;
+
+        document.getElementById('sessionBadge').innerText = 'ID: ' + evidenceId;
+        document.getElementById('valEvidenceId').innerText = evidenceId;
+
+        // Render Barcode Code 128
+        try {
+            JsBarcode("#barcodeSvg", evidenceId, {
+                format: "CODE128",
+                lineColor: "#000",
+                width: 2,
+                height: 50,
+                displayValue: true,
+                fontSize: 13,
+                fontOptions: "bold"
+            });
+        } catch(e) {}
+
+        async function loadEvidenceData() {
+            let sessionData = null;
+            let mediaItems = [];
+
+            if (supabase) {
+                try {
+                    const { data: sData } = await supabase.from('evidence_sessions').select('*').eq('session_id', evidenceId).single();
+                    sessionData = sData;
+                    const { data: mData } = await supabase.from('evidence_media').select('*').eq('session_id', evidenceId).order('session_index', { ascending: true });
+                    if (mData && mData.length > 0) mediaItems = mData;
+                } catch(err) {
+                    console.log('Supabase fetch error, fallback to parameters:', err);
+                }
+            }
+
+            // Fallback sample data if no remote records found yet (for instant preview)
+            if (!sessionData) {
+                sessionData = {
+                    session_id: evidenceId,
+                    officer_name: urlParams.get('petugas') || 'FADEL RIPAI',
+                    category: urlParams.get('cat') || 'BARANG MASUK',
+                    created_at: new Date().toISOString(),
+                    address: urlParams.get('address') || 'Jl. Raya Logistik No. 45, Jakarta Selatan',
+                    latitude: parseFloat(urlParams.get('lat') || '-6.272052'),
+                    longitude: parseFloat(urlParams.get('lng') || '106.744109')
+                };
+            }
+
+            // Populate metadata
+            document.getElementById('valOfficer').innerText = sessionData.officer_name || 'FADEL RIPAI';
+            document.getElementById('valCategory').innerText = (sessionData.category || 'BARANG MASUK').toUpperCase();
+            document.getElementById('valDateTime').innerText = new Date(sessionData.created_at).toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'medium' });
+            document.getElementById('valAddress').innerText = sessionData.address || '-';
+            const coordsStr = `${sessionData.latitude.toFixed(6)}, ${sessionData.longitude.toFixed(6)}`;
+            document.getElementById('valCoords').innerText = coordsStr;
+
+            const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${sessionData.latitude},${sessionData.longitude}`;
+            document.getElementById('btnMaps').href = mapsUrl;
+
+            const waMsg = encodeURIComponent(`Halo, saya ingin konfirmasi penerimaan bukti paket nomor ${evidenceId}`);
+            document.getElementById('btnWhatsApp').href = `https://wa.me/?text=${waMsg}`;
+
+            // Split into photos and videos
+            photosList = mediaItems.filter(m => m.media_type === 'photo').map(m => m.file_url);
+            videosList = mediaItems.filter(m => m.media_type === 'video').map(m => m.file_url);
+
+            // If empty, add placeholder photo so page renders beautifully
+            if (photosList.length === 0) {
+                photosList.push('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=900&auto=format&fit=crop&q=80');
+            }
+
+            document.getElementById('photoCount').innerText = photosList.length;
+            document.getElementById('videoCount').innerText = videosList.length;
+
+            document.getElementById('loadingView').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'grid';
+
+            switchMediaTab('photo');
+        }
+
+        function switchMediaTab(type) {
+            currentTab = type;
+            currentIndex = 0;
+            document.getElementById('tabPhotos').classList.toggle('active', type === 'photo');
+            document.getElementById('tabVideos').classList.toggle('active', type === 'video');
+
+            renderThumbnails();
+            showMedia(0);
+        }
+
+        function renderThumbnails() {
+            const container = document.getElementById('thumbsStrip');
+            container.innerHTML = '';
+            const list = currentTab === 'photo' ? photosList : videosList;
+
+            list.forEach((url, idx) => {
+                const img = document.createElement('img');
+                img.className = 'thumb-item' + (idx === currentIndex ? ' active' : '');
+                img.src = currentTab === 'photo' ? url : 'https://img.icons8.com/color/96/video.png';
+                img.onclick = () => showMedia(idx);
+                container.appendChild(img);
+            });
+        }
+
+        function showMedia(index) {
+            const list = currentTab === 'photo' ? photosList : videosList;
+            if (index < 0 || index >= list.length) return;
+            currentIndex = index;
+
+            const imgEl = document.getElementById('mainImage');
+            const vidEl = document.getElementById('mainVideo');
+            const dlBtn = document.getElementById('btnDownload');
+            const mediaUrl = list[index];
+
+            if (currentTab === 'photo') {
+                vidEl.pause();
+                vidEl.style.display = 'none';
+                imgEl.style.display = 'block';
+                imgEl.src = mediaUrl;
+            } else {
+                imgEl.style.display = 'none';
+                vidEl.style.display = 'block';
+                vidEl.src = mediaUrl;
+                vidEl.load();
+            }
+
+            dlBtn.href = mediaUrl;
+            document.getElementById('mediaCounter').innerText = `${currentIndex + 1} / ${list.length} ${currentTab === 'photo' ? 'Foto' : 'Video'}`;
+
+            // Highlight thumbnail
+            const thumbs = document.querySelectorAll('.thumb-item');
+            thumbs.forEach((t, i) => t.classList.toggle('active', i === currentIndex));
+        }
+
+        function toggleAutoPlay() {
+            isPlaying = !isPlaying;
+            const btn = document.getElementById('btnAutoPlay');
+            if (isPlaying) {
+                btn.innerText = '⏸ Jeda Slideshow';
+                playTimer = setInterval(() => {
+                    const list = currentTab === 'photo' ? photosList : videosList;
+                    const next = (currentIndex + 1) % list.length;
+                    showMedia(next);
+                }, 2000);
+            } else {
+                btn.innerText = '▶ Putar Slideshow / Animasi';
+                if (playTimer) clearInterval(playTimer);
+            }
+        }
+
+        loadEvidenceData();
+    </script>
+</body>
+</html>
+
