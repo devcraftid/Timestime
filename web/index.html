@@ -394,15 +394,21 @@
         const evidenceId = urlParams.get('id') || 'FL-2026-000001';
 
         // Ganti dengan URL dan Anon Key project Supabase Anda jika sudah dibuat:
-        const SUPABASE_URL = window.SUPABASE_URL || localStorage.getItem('supabase_url') || 'https://YOUR_PROJECT.supabase.co';
-        const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || localStorage.getItem('supabase_anon_key') || 'YOUR_ANON_KEY';
+        let SUPABASE_URL = window.SUPABASE_URL || localStorage.getItem('supabase_url') || 'https://YOUR_PROJECT.supabase.co';
+        let SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || localStorage.getItem('supabase_anon_key') || 'YOUR_ANON_KEY';
 
         let supabase = null;
-        try {
-            if (SUPABASE_URL.startsWith('http') && !SUPABASE_URL.includes('YOUR_PROJECT')) {
-                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            }
-        } catch(e) { console.warn('Supabase not initialized yet'); }
+        function initSupabaseClient(url, key) {
+            try {
+                if (url && url.startsWith('http') && !url.includes('YOUR_PROJECT') && key && !key.includes('YOUR_ANON')) {
+                    supabase = window.supabase.createClient(url, key);
+                    return true;
+                }
+            } catch(e) { console.warn('Supabase not initialized:', e); }
+            return false;
+        }
+
+        initSupabaseClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let photosList = [];
         let videosList = [];
@@ -428,6 +434,21 @@
         } catch(e) {}
 
         async function loadEvidenceData() {
+            // Load environment variables dynamically from Vercel /api/config if available
+            try {
+                const cfgRes = await fetch('/api/config');
+                if (cfgRes.ok) {
+                    const cfg = await cfgRes.json();
+                    if (cfg.supabaseUrl && cfg.supabaseAnonKey) {
+                        SUPABASE_URL = cfg.supabaseUrl;
+                        SUPABASE_ANON_KEY = cfg.supabaseAnonKey;
+                        initSupabaseClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                    }
+                }
+            } catch(e) {
+                // Running statically or locally without serverless
+            }
+
             let sessionData = null;
             let mediaItems = [];
 
