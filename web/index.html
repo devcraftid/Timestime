@@ -397,12 +397,14 @@
         let SUPABASE_URL = window.SUPABASE_URL || localStorage.getItem('supabase_url') || 'https://huokirjroudttbmwjlma.supabase.co';
         let SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || localStorage.getItem('supabase_anon_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1b2tpcmpyb3VkdHRibXdqbG1hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM5MzU1MjcsImV4cCI6MjEwOTUxMTUyN30.ij2UmmzBDB-oUos1nTkB6xu_VnJaaDL6JNyMRKRvO5c';
 
-        let supabase = null;
+        let supabaseClient = null;
         function initSupabaseClient(url, key) {
             try {
                 if (url && url.startsWith('http') && !url.includes('YOUR_PROJECT') && key && !key.includes('YOUR_ANON')) {
-                    supabase = window.supabase.createClient(url, key);
-                    return true;
+                    if (window.supabase && typeof window.supabase.createClient === 'function') {
+                        supabaseClient = window.supabase.createClient(url, key);
+                        return true;
+                    }
                 }
             } catch(e) { console.warn('Supabase not initialized:', e); }
             return false;
@@ -452,11 +454,11 @@
             let sessionData = null;
             let mediaItems = [];
 
-            if (supabase) {
+            if (supabaseClient) {
                 try {
-                    const { data: sData } = await supabase.from('evidence_sessions').select('*').eq('session_id', evidenceId).single();
+                    const { data: sData } = await supabaseClient.from('evidence_sessions').select('*').eq('session_id', evidenceId).single();
                     sessionData = sData;
-                    const { data: mData } = await supabase.from('evidence_media').select('*').eq('session_id', evidenceId).order('session_index', { ascending: true });
+                    const { data: mData } = await supabaseClient.from('evidence_media').select('*').eq('session_id', evidenceId).order('session_index', { ascending: true });
                     if (mData && mData.length > 0) mediaItems = mData;
                 } catch(err) {
                     console.log('Supabase fetch error, fallback to parameters:', err);
