@@ -302,6 +302,18 @@
             Memuat bukti dokumentasi & foto/video barang...
         </div>
 
+        <!-- Empty State (Jika ID belum diunggah atau tidak ditemukan di database) -->
+        <div id="emptyView" style="display: none; text-align: center; padding: 70px 24px; background: var(--navy-surface); border: 1px solid var(--border-color); border-radius: 18px; margin-bottom: 20px;">
+            <div style="font-size: 54px; margin-bottom: 16px;">📦</div>
+            <h2 style="font-size: 19px; font-weight: bold; margin-bottom: 10px; color: var(--text-white);">Dokumentasi Belum Tersedia di Server</h2>
+            <p style="font-size: 13.5px; color: var(--text-gray); max-width: 520px; margin: 0 auto 22px; line-height: 1.6;">
+                Belum ada data bukti foto atau rekaman video di server untuk ID <strong style="color: var(--accent-green);" id="emptyId"></strong>. Pastikan petugas di lapangan telah menyelesaikan sesi dokumentasi atau menekan tombol upload di aplikasi FL PROOF.
+            </p>
+            <button onclick="location.reload()" style="background: var(--brand-orange); color: white; border: none; padding: 11px 24px; border-radius: 10px; font-weight: bold; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+                <span>&#8635;</span> <span>Muat Ulang (Refresh)</span>
+            </button>
+        </div>
+
         <!-- Main Content -->
         <div class="grid-layout" id="mainContent" style="display: none;">
             <!-- Left: Media Viewer -->
@@ -476,41 +488,42 @@
                 }
             }
 
-            // Fallback sample data if no remote records found yet (for instant preview)
-            if (!sessionData) {
-                sessionData = {
-                    session_id: evidenceId,
-                    officer_name: urlParams.get('petugas') || 'FADEL RIPAI',
-                    category: urlParams.get('cat') || 'BARANG MASUK',
-                    created_at: new Date().toISOString(),
-                    address: urlParams.get('address') || 'Jl. Raya Logistik No. 45, Jakarta Selatan',
-                    latitude: parseFloat(urlParams.get('lat') || '-6.272052'),
-                    longitude: parseFloat(urlParams.get('lng') || '106.744109')
-                };
+            // Cek apakah data sesi atau media ditemukan di database Supabase
+            if (!sessionData && mediaItems.length === 0) {
+                document.getElementById('loadingView').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'none';
+                document.getElementById('emptyId').innerText = evidenceId;
+                document.getElementById('emptyView').style.display = 'block';
+                return;
             }
 
-            // Populate metadata
-            document.getElementById('valOfficer').innerText = sessionData.officer_name || 'FADEL RIPAI';
-            document.getElementById('valCategory').innerText = (sessionData.category || 'BARANG MASUK').toUpperCase();
-            document.getElementById('valDateTime').innerText = new Date(sessionData.created_at).toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'medium' });
-            document.getElementById('valAddress').innerText = sessionData.address || '-';
-            const coordsStr = `${sessionData.latitude.toFixed(6)}, ${sessionData.longitude.toFixed(6)}`;
-            document.getElementById('valCoords').innerText = coordsStr;
+            document.getElementById('emptyView').style.display = 'none';
 
-            const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${sessionData.latitude},${sessionData.longitude}`;
-            document.getElementById('btnMaps').href = mapsUrl;
+            // Menampilkan metadata ASLI dari Supabase (tanpa data sampel)
+            document.getElementById('valOfficer').innerText = (sessionData && sessionData.officer_name) ? sessionData.officer_name : '-';
+            document.getElementById('valCategory').innerText = (sessionData && sessionData.category) ? sessionData.category.toUpperCase() : '-';
+            document.getElementById('valDateTime').innerText = (sessionData && sessionData.created_at) 
+                ? new Date(sessionData.created_at).toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'medium' }) 
+                : '-';
+            document.getElementById('valAddress').innerText = (sessionData && sessionData.address) ? sessionData.address : 'Alamat tidak dicatat';
+            
+            const hasGps = sessionData && sessionData.latitude && sessionData.latitude !== 0.0;
+            if (hasGps) {
+                const coordsStr = `${sessionData.latitude.toFixed(6)}, ${sessionData.longitude.toFixed(6)}`;
+                document.getElementById('valCoords').innerText = coordsStr;
+                document.getElementById('btnMaps').href = `https://www.google.com/maps/search/?api=1&query=${sessionData.latitude},${sessionData.longitude}`;
+                document.getElementById('btnMaps').style.display = 'inline-flex';
+            } else {
+                document.getElementById('valCoords').innerText = 'GPS tidak tersedia';
+                document.getElementById('btnMaps').style.display = 'none';
+            }
 
             const waMsg = encodeURIComponent(`Halo, saya ingin konfirmasi penerimaan bukti paket nomor ${evidenceId}`);
             document.getElementById('btnWhatsApp').href = `https://wa.me/?text=${waMsg}`;
 
-            // Split into photos and videos
+            // Pisahkan foto dan video ASLI (tanpa sampel placeholder)
             photosList = mediaItems.filter(m => m.media_type === 'photo').map(m => m.file_url);
             videosList = mediaItems.filter(m => m.media_type === 'video').map(m => m.file_url);
-
-            // If empty, add placeholder photo so page renders beautifully
-            if (photosList.length === 0) {
-                photosList.push('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=900&auto=format&fit=crop&q=80');
-            }
 
             document.getElementById('photoCount').innerText = photosList.length;
             document.getElementById('videoCount').innerText = videosList.length;
@@ -518,7 +531,13 @@
             document.getElementById('loadingView').style.display = 'none';
             document.getElementById('mainContent').style.display = 'grid';
 
-            switchMediaTab('photo');
+            if (photosList.length > 0) {
+                switchMediaTab('photo');
+            } else if (videosList.length > 0) {
+                switchMediaTab('video');
+            } else {
+                switchMediaTab('photo');
+            }
         }
 
         function switchMediaTab(type) {
@@ -536,6 +555,11 @@
             container.innerHTML = '';
             const list = currentTab === 'photo' ? photosList : videosList;
 
+            if (list.length === 0) {
+                container.innerHTML = `<span style="color:var(--text-gray); font-size:12px; padding:6px 0;">Belum ada ${currentTab === 'photo' ? 'foto' : 'video'} terupload untuk sesi ini</span>`;
+                return;
+            }
+
             list.forEach((url, idx) => {
                 const img = document.createElement('img');
                 img.className = 'thumb-item' + (idx === currentIndex ? ' active' : '');
@@ -547,12 +571,28 @@
 
         function showMedia(index) {
             const list = currentTab === 'photo' ? photosList : videosList;
-            if (index < 0 || index >= list.length) return;
-            currentIndex = index;
-
             const imgEl = document.getElementById('mainImage');
             const vidEl = document.getElementById('mainVideo');
             const dlBtn = document.getElementById('btnDownload');
+            const autoBtn = document.getElementById('btnAutoPlay');
+            const counterEl = document.getElementById('mediaCounter');
+
+            if (list.length === 0) {
+                imgEl.style.display = 'none';
+                vidEl.pause();
+                vidEl.style.display = 'none';
+                dlBtn.style.display = 'none';
+                autoBtn.style.display = 'none';
+                counterEl.innerText = '0 / 0';
+                return;
+            }
+
+            dlBtn.style.display = 'inline-flex';
+            autoBtn.style.display = (currentTab === 'photo' && photosList.length > 1) ? 'inline-flex' : 'none';
+
+            if (index < 0 || index >= list.length) index = 0;
+            currentIndex = index;
+
             const mediaUrl = list[index];
 
             if (currentTab === 'photo') {
@@ -568,7 +608,7 @@
             }
 
             dlBtn.href = mediaUrl;
-            document.getElementById('mediaCounter').innerText = `${currentIndex + 1} / ${list.length} ${currentTab === 'photo' ? 'Foto' : 'Video'}`;
+            counterEl.innerText = `${currentIndex + 1} / ${list.length} ${currentTab === 'photo' ? 'Foto' : 'Video'}`;
 
             // Highlight thumbnail
             const thumbs = document.querySelectorAll('.thumb-item');
