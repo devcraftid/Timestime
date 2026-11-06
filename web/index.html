@@ -393,9 +393,9 @@
         const urlParams = new URLSearchParams(window.location.search);
         const evidenceId = urlParams.get('id') || 'FL-2026-000001';
 
-        // Ganti dengan URL dan Anon Key project Supabase Anda jika sudah dibuat:
-        let SUPABASE_URL = window.SUPABASE_URL || localStorage.getItem('supabase_url') || 'https://YOUR_PROJECT.supabase.co';
-        let SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || localStorage.getItem('supabase_anon_key') || 'YOUR_ANON_KEY';
+        // Supabase Project Credentials
+        let SUPABASE_URL = window.SUPABASE_URL || localStorage.getItem('supabase_url') || 'https://huokirjroudttbmwjlma.supabase.co';
+        let SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || localStorage.getItem('supabase_anon_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1b2tpcmpyb3VkdHRibXdqbG1hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM5MzU1MjcsImV4cCI6MjEwOTUxMTUyN30.ij2UmmzBDB-oUos1nTkB6xu_VnJaaDL6JNyMRKRvO5c';
 
         let supabase = null;
         function initSupabaseClient(url, key) {

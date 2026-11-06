@@ -101,6 +101,11 @@ class SettingsRepository(context: Context) {
             updateWatermarkConfig()
         }
 
+    companion object {
+        const val DEFAULT_SUPABASE_URL = "https://huokirjroudttbmwjlma.supabase.co"
+        const val DEFAULT_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1b2tpcmpyb3VkdHRibXdqbG1hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM5MzU1MjcsImV4cCI6MjEwOTUxMTUyN30.ij2UmmzBDB-oUos1nTkB6xu_VnJaaDL6JNyMRKRvO5c"
+    }
+
     var customerWebPortalUrl: String
         get() = prefs.getString("customer_web_url", "") ?: ""
         set(value) = prefs.edit().putString("customer_web_url", value).apply()
@@ -110,11 +115,11 @@ class SettingsRepository(context: Context) {
         set(value) = prefs.edit().putString("vercel_portal_url", value).apply()
 
     var supabaseUrl: String
-        get() = prefs.getString("supabase_url", "") ?: ""
+        get() = prefs.getString("supabase_url", DEFAULT_SUPABASE_URL)?.ifBlank { DEFAULT_SUPABASE_URL } ?: DEFAULT_SUPABASE_URL
         set(value) = prefs.edit().putString("supabase_url", value).apply()
 
     var supabaseAnonKey: String
-        get() = prefs.getString("supabase_anon_key", "") ?: ""
+        get() = prefs.getString("supabase_anon_key", DEFAULT_SUPABASE_ANON_KEY)?.ifBlank { DEFAULT_SUPABASE_ANON_KEY } ?: DEFAULT_SUPABASE_ANON_KEY
         set(value) = prefs.edit().putString("supabase_anon_key", value).apply()
 
     private fun loadWatermarkConfig(): WatermarkConfig {
