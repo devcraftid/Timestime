@@ -6,6 +6,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -35,18 +38,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.firstlogistics.flproof.FLProofApplication
 import com.firstlogistics.flproof.ui.components.FLProofTopBar
 import com.firstlogistics.flproof.ui.theme.BrandBlue
 import com.firstlogistics.flproof.ui.theme.NavyBackground
+import java.io.ByteArrayOutputStream
+import java.io.File
 
 /**
  * JavaScript Interface untuk interaksi native antara Workmate WebView dengan OS Android.
- * Menyimpan foto fisik barang langsung ke Galeri HP (Pictures/FL_WORKMATE) via MediaStore.
+ * - Membuka kamera langsung untuk foto fisik barang.
+ * - Menyimpan foto fisik barang langsung ke Galeri HP (Pictures/FL_WORKMATE) via MediaStore.
  */
-class WorkmateNativeBridge(private val context: Context) {
+class WorkmateNativeBridge(
+    private val context: Context,
+    private val onOpenNativeCamera: (slotIndex: Int, isEdit: Boolean) -> Unit
+) {
     @JavascriptInterface
     fun isNativeApp(): Boolean = true
+
+    @JavascriptInterface
+    fun openNativeCamera(slotIndex: Int, isEdit: Boolean) {
+        Handler(Looper.getMainLooper()).post {
+            onOpenNativeCamera(slotIndex, isEdit)
+        }
+    }
 
     @JavascriptInterface
     fun saveImageToGallery(base64Data: String, fileName: String): Boolean {
@@ -119,6 +136,85 @@ fun WorkmateScreen(
                     Manifest.permission.RECORD_AUDIO
                 )
             )
+        }
+    }
+
+    // Direct Native Camera Launcher for Physical Photo Capture
+    var pendingPhotoFile by remember { mutableStateOf<File?>(null) }
+    var pendingSlotIndex by remember { mutableStateOf(0) }
+    var isEditPhotoTarget by remember { mutableStateOf(false) }
+
+    val takeCameraPictureLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicture()
+    ) { success ->
+        val file = pendingPhotoFile
+        if (success && file != null && file.exists() && file.length() > 0) {
+            try {
+                val exif = androidx.exifinterface.media.ExifInterface(file.absolutePath)
+                val orientation = exif.getAttributeInt(
+                    androidx.exifinterface.media.ExifInterface.TAG_ORIENTATION,
+                    androidx.exifinterface.media.ExifInterface.ORIENTATION_NORMAL
+                )
+                val rotation = when (orientation) {
+                    androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_90 -> 90f
+                    androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_180 -> 180f
+                    androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_270 -> 270f
+                    else -> 0f
+                }
+
+                var bitmap = BitmapFactory.decodeFile(file.absolutePath)
+                if (bitmap != null) {
+                    if (rotation != 0f) {
+                        val matrix = Matrix().apply { postRotate(rotation) }
+                        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+                    }
+
+                    val maxDim = 1024
+                    val ratio = minOf(maxDim.toFloat() / bitmap.width, maxDim.toFloat() / bitmap.height, 1.0f)
+                    val scaled = if (ratio < 1.0f) {
+                        Bitmap.createScaledBitmap(bitmap, (bitmap.width * ratio).toInt(), (bitmap.height * ratio).toInt(), true)
+                    } else bitmap
+
+                    val stream = ByteArrayOutputStream()
+                    scaled.compress(Bitmap.CompressFormat.JPEG, 85, stream)
+                    val base64 = Base64.encodeToString(stream.toByteArray(), Base64.NO_WRAP)
+                    val dataUrl = "data:image/jpeg;base64,$base64"
+
+                    val jsCall = if (isEditPhotoTarget) {
+                        "if(window.handleNativeEditPhotoResult) window.handleNativeEditPhotoResult($pendingSlotIndex, '$dataUrl');"
+                    } else {
+                        "if(window.handleNativePhotoResult) window.handleNativePhotoResult($pendingSlotIndex, '$dataUrl');"
+                    }
+                    webViewInstance?.evaluateJavascript(jsCall, null)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(context, "Gagal memproses foto: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+            } finally {
+                try { file.delete() } catch (_: Exception) {}
+                pendingPhotoFile = null
+            }
+        } else {
+            pendingPhotoFile?.delete()
+            pendingPhotoFile = null
+        }
+    }
+
+    val triggerNativeCamera: (Int, Boolean) -> Unit = { slot, isEdit ->
+        try {
+            val file = File(context.cacheDir, "workmate_cam_${System.currentTimeMillis()}.jpg")
+            val uri = FileProvider.getUriForFile(
+                context,
+                "com.firstlogistics.flproof.fileprovider",
+                file
+            )
+            pendingPhotoFile = file
+            pendingSlotIndex = slot
+            isEditPhotoTarget = isEdit
+            takeCameraPictureLauncher.launch(uri)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, "Kamera error: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -204,7 +300,6 @@ fun WorkmateScreen(
                             allowContentAccess = true
                             mediaPlaybackRequiresUserGesture = false
                             cacheMode = WebSettings.LOAD_DEFAULT
-                            // Kunci viewport ke ukuran layar HP native (mencegah geser horizontal / zoomed in)
                             useWideViewPort = false
                             loadWithOverviewMode = false
                             setSupportZoom(false)
@@ -217,8 +312,8 @@ fun WorkmateScreen(
                         isVerticalScrollBarEnabled = true
                         overScrollMode = WebView.OVER_SCROLL_NEVER
 
-                        // Connect native bridge for gallery photo saving
-                        addJavascriptInterface(WorkmateNativeBridge(ctx), "AndroidBridge")
+                        // Connect native bridge for gallery photo saving and native camera opening
+                        addJavascriptInterface(WorkmateNativeBridge(ctx, triggerNativeCamera), "AndroidBridge")
 
                         webViewClient = WebViewClient()
 

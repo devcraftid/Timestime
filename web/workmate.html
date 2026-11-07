@@ -938,54 +938,218 @@
             max-width: 90vw;
         }
 
-        /* Modal Overlay */
+        /* Modal Overlay & Box Styling */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.82);
-            backdrop-filter: blur(4px);
+            background: rgba(3, 7, 18, 0.85);
+            backdrop-filter: blur(5px);
             display: none;
             align-items: center;
             justify-content: center;
-            padding: 14px;
-            z-index: 1000;
+            padding: 10px;
+            z-index: 10000;
         }
 
         .modal-box {
             background: var(--navy-surface);
-            border: 1px solid var(--navy-border);
+            border: 1.5px solid var(--navy-border);
             border-radius: 18px;
-            max-width: calc(100vw - 20px);
+            max-width: 520px;
             width: 100%;
-            padding: 14px;
-            max-height: 90vh;
-            overflow-y: auto;
-            overflow-x: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            max-height: 92vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
         }
 
-        .modal-photo-item {
-            position: relative;
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--navy-border);
+            background: var(--navy-card);
+            flex-shrink: 0;
+        }
+
+        .modal-header h2 {
+            font-size: 13.5px;
+            font-weight: 900;
+            color: var(--text-white);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .modal-body {
+            padding: 14px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            flex: 1;
+        }
+
+        .modal-footer {
+            padding: 10px 14px;
+            background: var(--navy-card);
+            border-top: 1px solid var(--navy-border);
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        /* Detail Modal Internal Cards */
+        .detail-awb-banner {
+            background: var(--navy-card);
+            border: 1.5px solid var(--navy-border);
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .detail-awb-title {
+            font-size: 10px;
+            color: var(--text-gray);
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .detail-awb-value {
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--brand-orange);
+            font-family: monospace;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .detail-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+
+        .detail-meta-badge {
+            background: var(--navy-surface);
+            border: 1px solid var(--navy-border);
+            color: var(--text-silver);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 10.5px;
+            font-weight: bold;
+        }
+
+        .detail-hero-charged {
+            background: linear-gradient(135deg, rgba(0, 230, 118, 0.15), rgba(2, 136, 209, 0.12));
+            border: 2px solid var(--accent-green);
+            border-radius: 14px;
+            padding: 12px 14px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .detail-hero-charged .lbl {
+            font-size: 10.5px;
+            font-weight: 800;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .detail-hero-charged .val {
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--accent-green);
+            letter-spacing: 0.5px;
+        }
+
+        .detail-hero-charged .note {
+            font-size: 11px;
+            color: var(--text-silver);
+            margin-top: 4px;
+            line-height: 1.35;
+        }
+
+        .detail-grid-breakdown {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .detail-info-card {
+            background: var(--navy-card);
+            border: 1px solid var(--navy-border);
             border-radius: 12px;
+            padding: 8px 10px;
+        }
+
+        .detail-info-card .card-lbl {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .detail-info-card .card-val {
+            font-size: 13.5px;
+            font-weight: 900;
+            color: var(--text-white);
+        }
+
+        .detail-info-card .card-sub {
+            font-size: 9.5px;
+            color: var(--text-gray);
+            margin-top: 2px;
+        }
+
+        .detail-photos-section {
+            background: var(--navy-card);
+            border: 1px solid var(--navy-border);
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+
+        .detail-photos-title {
+            font-size: 11.5px;
+            font-weight: 800;
+            color: var(--text-white);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .detail-photo-card {
+            border-radius: 10px;
             overflow: hidden;
             border: 1px solid var(--navy-border);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             background: #000;
         }
 
-        .modal-photo-item img {
+        .detail-photo-card img {
             width: 100%;
-            max-height: 280px;
+            max-height: 240px;
             object-fit: contain;
             display: block;
         }
 
-        .modal-photo-bar {
-            padding: 8px 12px;
-            background: var(--navy-card);
+        .detail-photo-footer {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 8px 10px;
+            background: var(--navy-surface);
         }
     </style>
 </head>
@@ -1299,13 +1463,14 @@
         <div class="toast-notif" id="toastNotif">Pesan notifikasi</div>
 
         <!-- Modal Detail / Foto Viewer -->
-        <div class="modal-overlay" id="detailModal">
-            <div class="modal-box">
-                <div class="card-title">
-                    <span id="modalAwbTitle">Detail AWB</span>
-                    <button class="icon-btn" onclick="closeDetailModal()">&#10006; Tutup</button>
+        <div class="modal-overlay" id="detailModal" onclick="handleDetailOverlayClick(event)">
+            <div class="modal-box" onclick="event.stopPropagation()">
+                <div class="modal-header">
+                    <h2>📦 DETAIL PENGUKURAN PAKET</h2>
+                    <button class="icon-btn" onclick="closeDetailModal()" style="padding:6px 10px;">&#10006; Tutup</button>
                 </div>
-                <div id="modalContent"></div>
+                <div class="modal-body" id="modalContent"></div>
+                <div class="modal-footer" id="modalFooterActions"></div>
             </div>
         </div>
 
@@ -1918,22 +2083,58 @@
         // =====================================================================
         // 7. FOTO MANAGEMENT (AMBIL, GANTI, HAPUS, SIMPAN KE MEMORI HP)
         // =====================================================================
+        // Callback penerima hasil foto dari native camera Android
+        window.handleNativePhotoResult = function(slotIndex, dataUrl) {
+            if (typeof slotIndex !== 'number' || slotIndex < 0 || slotIndex > 2) {
+                const emptyIdx = currentPhotos.findIndex(p => !p);
+                slotIndex = emptyIdx !== -1 ? emptyIdx : 0;
+            }
+            currentPhotos[slotIndex] = dataUrl;
+            renderPhotoSlots();
+            playBeepSound();
+            showToast(`Foto fisik barang (Foto ${slotIndex + 1}) berhasil diambil dari kamera!`);
+        };
+
+        window.handleNativeEditPhotoResult = function(slotIndex, dataUrl) {
+            if (typeof slotIndex !== 'number') slotIndex = editModalPhotos.length;
+            if (slotIndex < editModalPhotos.length) {
+                editModalPhotos[slotIndex] = dataUrl;
+            } else {
+                editModalPhotos.push(dataUrl);
+            }
+            renderEditPhotoSlots();
+            playBeepSound();
+            showToast('Foto fisik barang berhasil diambil dari kamera!');
+        };
+
         function triggerPhotoPick(slotIndex) {
             targetSlotIndex = slotIndex;
             isEditTarget = false;
-            // Jika slot sudah ada gambar, beri pilihan: Ganti / Lihat
+            // Jika slot sudah ada gambar, beri konfirmasi ganti
             if (currentPhotos[slotIndex]) {
-                const action = confirm('Slot ini sudah berisi foto.\n\nKlik OK untuk GANTI FOTO baru, atau CANCEL untuk batal.');
+                const action = confirm('Slot ini sudah berisi foto.\n\nKlik OK untuk GANTI FOTO dengan kamera, atau CANCEL untuk batal.');
                 if (!action) return;
             }
-            openCameraPicker();
+            openCameraPicker(slotIndex, false);
         }
 
-        function openCameraPicker() {
+        function openCameraPicker(slotIndex, isEdit) {
+            if (typeof slotIndex === 'number') targetSlotIndex = slotIndex;
+            if (typeof isEdit === 'boolean') isEditTarget = isEdit;
+
+            // Jika berjalan di Android APK (ada AndroidBridge), buka kamera HP native langsung!
+            if (window.AndroidBridge && typeof window.AndroidBridge.openNativeCamera === 'function') {
+                window.AndroidBridge.openNativeCamera(targetSlotIndex, !!isEditTarget);
+                return;
+            }
+
+            // Fallback web browser
             document.getElementById('hiddenCameraInput').click();
         }
 
-        function openGalleryPicker() {
+        function openGalleryPicker(slotIndex, isEdit) {
+            if (typeof slotIndex === 'number') targetSlotIndex = slotIndex;
+            if (typeof isEdit === 'boolean') isEditTarget = isEdit;
             document.getElementById('hiddenGalleryInput').click();
         }
 
@@ -2033,7 +2234,7 @@
             if (event) event.stopPropagation();
             targetSlotIndex = slotIndex;
             isEditTarget = false;
-            openCameraPicker();
+            openCameraPicker(slotIndex, false);
         }
 
         // =====================================================================
@@ -2232,57 +2433,155 @@
         }
 
         // =====================================================================
-        // 10. DETAIL MODAL & FULL PHOTO VIEWER
+        // 10. DETAIL MODAL & FULL PHOTO VIEWER (DESAIN BERSIH & JELAS)
         // =====================================================================
         function viewDetailModal(id) {
             const pkg = allPackagesList.find(p => p.id === id);
             if (!pkg) return;
 
-            document.getElementById('modalAwbTitle').innerText = `AWB: ${pkg.awb}`;
-            let photosHtml = '<p style="color:var(--text-gray); font-size:12px; margin-top:6px;">Tidak ada foto dilampirkan.</p>';
+            const timeStr = new Date(pkg.createdAt).toLocaleString('id-ID', {
+                weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
 
+            const methodLabel = pkg.inputMethod === 'voice' ? '🎙️ SUARA (VOICE)' : '⌨️ MANUAL (KEYBOARD)';
+            const isVolumetricLarger = (pkg.volumetricWeight || 0) >= (pkg.actualWeight || 0);
+
+            let photosSectionHtml = '';
             if (pkg.photos && pkg.photos.length > 0) {
-                photosHtml = pkg.photos.map((photoData, idx) => `
-                    <div class="modal-photo-item">
-                        <img src="${photoData}" alt="Foto ${idx+1}" />
-                        <div class="modal-photo-bar">
-                            <span style="font-size:11px; font-weight:bold; color:var(--text-white);">Foto ${idx + 1}</span>
-                            <button class="icon-btn" onclick="savePhotoToPhoneMemory('${photoData}', '${pkg.awb}_foto_${idx+1}.jpg')">
-                                💾 Simpan ke Galeri HP
-                            </button>
+                photosSectionHtml = `
+                    <div class="detail-photos-section">
+                        <div class="detail-photos-title">
+                            <span>📸 FOTO DOKUMENTASI FISIK (${pkg.photos.length} FOTO)</span>
+                            <span style="font-size:10px; color:var(--accent-green); font-weight:bold;">Tersimpan Offline</span>
                         </div>
+                        <div style="display:flex; flex-direction:column; gap:10px;">
+                            ${pkg.photos.map((photoData, idx) => `
+                                <div class="detail-photo-card">
+                                    <img src="${photoData}" alt="Foto ${idx+1}" onclick="window.open('${photoData}')" title="Klik untuk lihat ukuran asli" />
+                                    <div class="detail-photo-footer">
+                                        <span style="font-size:11px; font-weight:800; color:var(--text-white);">Foto Fisik #${idx + 1}</span>
+                                        <button class="icon-btn" style="background:var(--accent-green); color:#070D1B; font-weight:bold; border:none; padding:6px 12px;" onclick="savePhotoToPhoneMemory('${photoData}', '${pkg.awb}_foto_${idx+1}.jpg')">
+                                            💾 Simpan ke Galeri HP
+                                        </button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <button class="icon-btn" style="width:100%; margin-top:10px; justify-content:center; background:rgba(0, 230, 118, 0.15); border:1.5px solid var(--accent-green); color:var(--accent-green); font-weight:900; padding:10px;" onclick="saveAllPhotosByRecordId(${pkg.id})">
+                            📥 Simpan Semua Foto (${pkg.photos.length}) ke Memori HP
+                        </button>
                     </div>
-                `).join('');
+                `;
+            } else {
+                photosSectionHtml = `
+                    <div class="detail-photos-section" style="text-align:center; padding:16px;">
+                        <div style="font-size:26px; margin-bottom:4px;">📷</div>
+                        <div style="font-size:12.5px; font-weight:bold; color:var(--text-white);">Belum ada foto fisik barang</div>
+                        <p style="font-size:11px; color:var(--text-gray); margin-top:3px;">Anda dapat mengambil foto fisik barang sekarang melalui menu edit.</p>
+                        <button class="icon-btn" style="margin-top:10px; background:var(--brand-blue); color:white; border:none; padding:8px 14px;" onclick="closeDetailModal(); openEditModal(${pkg.id});">
+                            + Ambil Foto Sekarang
+                        </button>
+                    </div>
+                `;
             }
 
             document.getElementById('modalContent').innerHTML = `
-                <div style="font-size:13px; line-height:1.7; margin-bottom:14px;">
-                    <div><strong>Nomor AWB:</strong> <span style="color:var(--brand-orange); font-weight:900;">${escapeHtml(pkg.awb)}</span></div>
-                    <div><strong>Dimensi:</strong> ${pkg.length} × ${pkg.width} × ${pkg.height} cm</div>
-                    <div><strong>Volume Kubikasi:</strong> ${pkg.volumeCm3.toLocaleString('id-ID')} cm³ (${pkg.volumeM3} m³)</div>
-                    <div><strong>Berat Aktual:</strong> ${pkg.actualWeight} kg</div>
-                    <div><strong>Berat Volumetrik:</strong> ${pkg.volumetricWeight} kg (Divisor ${pkg.divisor})</div>
-                    <div><strong>Berat Dikenakan:</strong> <span style="color:var(--accent-green); font-weight:900; font-size:15px;">${pkg.chargedWeight} kg</span></div>
-                    <div><strong>Metode Input:</strong> ${pkg.inputMethod.toUpperCase()}</div>
-                    <div><strong>Waktu Dicatat:</strong> ${new Date(pkg.createdAt).toLocaleString('id-ID')}</div>
+                <!-- AWB Banner Card -->
+                <div class="detail-awb-banner">
+                    <div class="detail-awb-title">NOMOR AWB / RESI</div>
+                    <div class="detail-awb-value">
+                        <span>${escapeHtml(pkg.awb)}</span>
+                        <button class="icon-btn" onclick="copyAwbToClipboard('${escapeHtml(pkg.awb)}')" style="padding:4px 8px; font-size:11px;">📋 Salin</button>
+                    </div>
+                    <div class="detail-meta-row">
+                        <span class="detail-meta-badge">📅 ${timeStr}</span>
+                        <span class="detail-meta-badge">${methodLabel}</span>
+                    </div>
                 </div>
 
-                ${(pkg.photos && pkg.photos.length > 0) ? `
-                    <button class="icon-btn" style="width:100%; margin-bottom:12px; background:var(--navy-card);" onclick="saveAllPhotosForAwb(allPackagesList.find(p => p.id === ${id}))">
-                        📥 Simpan Semua Foto AWB ini ke Memori HP
-                    </button>
-                ` : ''}
-
-                <div style="font-size:12px; font-weight:bold; color:var(--text-white); margin-bottom:8px;">
-                    Foto Dokumentasi (${(pkg.photos && pkg.photos.length) || 0}):
+                <!-- Hero Charged Weight -->
+                <div class="detail-hero-charged">
+                    <div class="lbl">⚖️ TOTAL BERAT DIKENAKAN (CHARGED WEIGHT)</div>
+                    <div class="val">${pkg.chargedWeight.toFixed(2)} KG</div>
+                    <div class="note">
+                        ${isVolumetricLarger 
+                            ? `Dikenakan berdasarkan <strong>Berat Volumetrik (${pkg.volumetricWeight} kg)</strong> karena lebih besar dari Berat Aktual (${pkg.actualWeight} kg).`
+                            : `Dikenakan berdasarkan <strong>Berat Aktual (${pkg.actualWeight} kg)</strong> karena lebih besar atau sama dengan Berat Volumetrik (${pkg.volumetricWeight} kg).`
+                        }
+                    </div>
                 </div>
-                <div>${photosHtml}</div>
+
+                <!-- 4 Breakdown Cards -->
+                <div class="detail-grid-breakdown">
+                    <div class="detail-info-card">
+                        <div class="card-lbl">📏 Dimensi Paket</div>
+                        <div class="card-val">${pkg.length} × ${pkg.width} × ${pkg.height} cm</div>
+                        <div class="card-sub">P: ${pkg.length} | L: ${pkg.width} | T: ${pkg.height} cm</div>
+                    </div>
+                    <div class="detail-info-card">
+                        <div class="card-lbl">📦 Volume Kubikasi</div>
+                        <div class="card-val">${pkg.volumeCm3.toLocaleString('id-ID')} cm³</div>
+                        <div class="card-sub">${pkg.volumeM3} m³</div>
+                    </div>
+                    <div class="detail-info-card">
+                        <div class="card-lbl">⚖️ Berat Aktual</div>
+                        <div class="card-val">${pkg.actualWeight} kg</div>
+                        <div class="card-sub">Timbangan Fisik</div>
+                    </div>
+                    <div class="detail-info-card">
+                        <div class="card-lbl">📐 Berat Volumetrik</div>
+                        <div class="card-val">${pkg.volumetricWeight} kg</div>
+                        <div class="card-sub">Divisor: ${pkg.divisor || 6000}</div>
+                    </div>
+                </div>
+
+                <!-- Photos Section -->
+                ${photosSectionHtml}
             `;
+
+            document.getElementById('modalFooterActions').innerHTML = `
+                <button class="btn-card-action edit" style="flex:1; justify-content:center; padding:10px; font-size:12.5px;" onclick="closeDetailModal(); openEditModal(${pkg.id});">
+                    ✏️ Edit & Update Foto
+                </button>
+                <button class="btn-card-action del" style="padding:10px 14px; font-size:12.5px;" onclick="confirmDeleteRecordFromModal(${pkg.id})">
+                    🗑️ Hapus
+                </button>
+            `;
+
             document.getElementById('detailModal').style.display = 'flex';
         }
 
         function closeDetailModal() {
             document.getElementById('detailModal').style.display = 'none';
+        }
+
+        function handleDetailOverlayClick(event) {
+            if (event.target.id === 'detailModal') {
+                closeDetailModal();
+            }
+        }
+
+        function copyAwbToClipboard(awb) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(awb).then(() => {
+                    showToast(`AWB ${awb} disalin ke clipboard!`);
+                }).catch(() => {
+                    showToast(`AWB: ${awb}`);
+                });
+            } else {
+                showToast(`AWB: ${awb}`);
+            }
+        }
+
+        async function confirmDeleteRecordFromModal(id) {
+            const ok = confirm('Yakin ingin menghapus catatan paket ini?');
+            if (ok) {
+                await dbDeletePackage(id);
+                closeDetailModal();
+                showToast('Catatan berhasil dihapus.');
+                loadAllRecords();
+            }
         }
 
         // =====================================================================
@@ -2368,28 +2667,28 @@
             if (event) event.stopPropagation();
             targetSlotIndex = index;
             isEditTarget = true;
-            openCameraPicker();
+            openCameraPicker(index, true);
         }
 
         function addEditPhotoSlot(index) {
             if (editModalPhotos.length >= 3) {
-                showToast('Maksimal 3 foto.');
+                showToast('Maksimal 3 foto fisik barang.');
                 return;
             }
             targetSlotIndex = index;
             isEditTarget = true;
-            openCameraPicker();
+            openCameraPicker(index, true);
         }
 
         function triggerEditPhotoAdd(source) {
             if (editModalPhotos.length >= 3) {
-                showToast('Maksimal 3 foto.');
+                showToast('Maksimal 3 foto fisik barang.');
                 return;
             }
             targetSlotIndex = editModalPhotos.length;
             isEditTarget = true;
-            if (source === 'camera') openCameraPicker();
-            else openGalleryPicker();
+            if (source === 'camera') openCameraPicker(targetSlotIndex, true);
+            else openGalleryPicker(targetSlotIndex, true);
         }
 
         async function saveEditedPackage() {
