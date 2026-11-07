@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>FIRST LOGISTICS WORKMATE — Smart Tools for Faster Logistics Work</title>
     <link rel="icon" href="https://img.icons8.com/color/96/delivery.png" type="image/png">
 
@@ -14,49 +14,67 @@
     <style>
         :root {
             --navy-dark: #070D1B;
-            --navy-surface: #0F1A30;
-            --navy-card: #15223D;
-            --navy-border: #1E2E50;
+            --navy-surface: #0E172E;
+            --navy-card: #15223E;
+            --navy-border: #1E2E52;
+            --navy-hover: #1A294B;
             --brand-blue: #0288D1;
+            --brand-blue-glow: rgba(2, 136, 209, 0.3);
             --brand-orange: #FF6600;
+            --brand-orange-glow: rgba(255, 102, 0, 0.3);
             --accent-green: #00E676;
+            --accent-green-dark: #00B359;
             --accent-red: #FF3B30;
             --text-white: #FFFFFF;
             --text-gray: #94A3B8;
             --text-silver: #CBD5E1;
             --bg-body: #070D1B;
             --text-main: #FFFFFF;
+            --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
         }
 
         body.light-mode {
             --navy-dark: #F1F5F9;
             --navy-surface: #FFFFFF;
-            --navy-card: #FFFFFF;
+            --navy-card: #F8FAFC;
             --navy-border: #CBD5E1;
+            --navy-hover: #E2E8F0;
             --brand-blue: #0288D1;
+            --brand-blue-glow: rgba(2, 136, 209, 0.2);
             --brand-orange: #FF6600;
-            --accent-green: #00A854;
+            --brand-orange-glow: rgba(255, 102, 0, 0.2);
+            --accent-green: #009944;
+            --accent-green-dark: #007A37;
             --accent-red: #D32F2F;
             --text-white: #0F172A;
             --text-gray: #64748B;
             --text-silver: #475569;
-            --bg-body: #F8FAFC;
+            --bg-body: #F4F6F9;
             --text-main: #0F172A;
+            --card-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-body);
             color: var(--text-main);
             min-height: 100vh;
-            padding-bottom: 50px;
+            padding-bottom: 70px;
+            font-size: 14px;
+            line-height: 1.45;
         }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 14px;
+            padding: 12px 14px;
         }
 
         /* Header App Bar */
@@ -67,274 +85,349 @@
             background: var(--navy-surface);
             border: 1px solid var(--navy-border);
             border-radius: 16px;
-            padding: 12px 18px;
-            margin-bottom: 16px;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+            box-shadow: var(--card-shadow);
         }
+
         .brand-box {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
+
         .logo-sq {
             background: linear-gradient(135deg, var(--brand-orange), #FF8533);
             color: white;
             font-weight: 900;
-            font-size: 18px;
+            font-size: 17px;
             border-radius: 10px;
             width: 38px;
             height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 10px rgba(255, 102, 0, 0.35);
+            box-shadow: 0 4px 10px var(--brand-orange-glow);
+            flex-shrink: 0;
         }
+
         .brand-titles h1 {
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 900;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
             color: var(--text-white);
+            line-height: 1.2;
         }
+
         .brand-titles p {
-            font-size: 10.5px;
+            font-size: 10px;
             color: var(--brand-orange);
             font-weight: 700;
         }
+
         .header-actions {
             display: flex;
-            gap: 8px;
+            gap: 6px;
         }
+
         .icon-btn {
             background: var(--navy-card);
             border: 1px solid var(--navy-border);
             color: var(--text-white);
             border-radius: 10px;
-            padding: 8px 12px;
-            font-size: 12px;
+            padding: 8px 10px;
+            font-size: 11.5px;
             font-weight: 600;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            gap: 4px;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .icon-btn:active {
+            transform: scale(0.96);
+            background: var(--navy-hover);
         }
 
         /* Top Nav Tabs */
         .nav-tabs {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 16px;
+            gap: 6px;
+            margin-bottom: 14px;
         }
+
         .tab-nav-btn {
             background: var(--navy-surface);
             border: 1px solid var(--navy-border);
             color: var(--text-gray);
             border-radius: 12px;
-            padding: 12px 8px;
-            font-size: 12.5px;
-            font-weight: bold;
+            padding: 10px 4px;
+            font-size: 12px;
+            font-weight: 800;
             cursor: pointer;
             text-align: center;
-            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: all 0.2s ease;
         }
+
         .tab-nav-btn.active {
             background: var(--brand-blue);
             color: white;
             border-color: var(--brand-blue);
-            box-shadow: 0 4px 14px rgba(2, 136, 209, 0.35);
+            box-shadow: 0 4px 12px var(--brand-blue-glow);
         }
 
-        /* Card container */
+        .tab-badge {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 1px 6px;
+            border-radius: 999px;
+            font-size: 10px;
+        }
+
+        /* Card Container */
         .card {
             background: var(--navy-surface);
             border: 1px solid var(--navy-border);
-            border-radius: 18px;
-            padding: 18px;
-            margin-bottom: 16px;
+            border-radius: 16px;
+            padding: 14px;
+            margin-bottom: 12px;
+            box-shadow: var(--card-shadow);
         }
+
         .card-title {
-            font-size: 13.5px;
+            font-size: 13px;
             font-weight: 800;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             color: var(--text-white);
+            letter-spacing: 0.2px;
         }
+
         .badge {
-            font-size: 10.5px;
-            font-weight: bold;
-            padding: 4px 10px;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 8px;
             border-radius: 999px;
             background: rgba(0, 230, 118, 0.15);
             color: var(--accent-green);
             border: 1px solid var(--accent-green);
+            text-transform: uppercase;
         }
 
         /* Step 1: Scanner Section */
         .awb-input-group {
             display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 6px;
+            margin-bottom: 8px;
         }
+
         .text-input {
             flex: 1;
+            min-width: 0;
             background: var(--navy-card);
             border: 1.5px solid var(--navy-border);
             border-radius: 12px;
-            padding: 12px 14px;
+            padding: 11px 12px;
             color: var(--text-white);
-            font-size: 15px;
+            font-size: 14.5px;
             font-weight: bold;
             letter-spacing: 0.5px;
             font-family: monospace;
+            text-transform: uppercase;
         }
+
         .text-input:focus {
             outline: none;
             border-color: var(--brand-blue);
         }
+
         .btn-scan {
             background: var(--brand-orange);
             color: white;
             border: none;
             border-radius: 12px;
-            padding: 0 16px;
+            padding: 0 14px;
             font-weight: bold;
-            font-size: 13px;
+            font-size: 12.5px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 6px;
+            flex-shrink: 0;
+            box-shadow: 0 3px 8px var(--brand-orange-glow);
         }
+
+        .btn-scan:active {
+            transform: scale(0.96);
+        }
+
         .scanner-viewport-box {
             position: relative;
             width: 100%;
-            height: 240px;
-            border-radius: 14px;
+            height: 220px;
+            border-radius: 12px;
             overflow: hidden;
             background: #000;
             display: none;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             border: 2px solid var(--brand-orange);
         }
+
         .scanner-viewport-box video {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+
         .scanner-reticle {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80%;
-            height: 60%;
-            border: 2px dashed rgba(255, 102, 0, 0.85);
+            width: 82%;
+            height: 55%;
+            border: 2px dashed rgba(255, 102, 0, 0.9);
             border-radius: 10px;
             box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.45);
         }
+
         .close-scanner-btn {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.7);
+            top: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.75);
             color: white;
-            border: none;
+            border: 1px solid rgba(255,255,255,0.3);
             border-radius: 8px;
-            padding: 6px 12px;
+            padding: 5px 10px;
             font-size: 11px;
             font-weight: bold;
             cursor: pointer;
+        }
+
+        .dup-alert {
+            display: none;
+            background: rgba(255, 59, 48, 0.12);
+            border: 1px solid var(--accent-red);
+            border-radius: 10px;
+            padding: 8px 12px;
+            color: var(--accent-red);
+            font-size: 11.5px;
+            font-weight: bold;
+            margin-top: 6px;
         }
 
         /* Voice Dimension Input Card */
         .voice-section {
             background: linear-gradient(180deg, rgba(2, 136, 209, 0.08), transparent);
             border: 1.5px solid rgba(2, 136, 209, 0.35);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 16px;
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 12px;
         }
+
         .voice-btn-container {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 14px;
+            gap: 12px;
+            margin-bottom: 10px;
         }
+
         .mic-btn {
-            width: 60px;
-            height: 60px;
+            width: 54px;
+            height: 54px;
             border-radius: 50%;
             background: var(--brand-blue);
             color: white;
             border: none;
-            font-size: 24px;
+            font-size: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 4px 16px rgba(2, 136, 209, 0.4);
+            box-shadow: 0 4px 14px var(--brand-blue-glow);
             transition: all 0.2s;
+            flex-shrink: 0;
         }
+
         .mic-btn.recording {
             background: var(--accent-red);
             animation: pulse-rec 1.2s infinite;
         }
+
         @keyframes pulse-rec {
             0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); }
-            70% { transform: scale(1.08); box-shadow: 0 0 0 14px rgba(255, 59, 48, 0); }
+            70% { transform: scale(1.08); box-shadow: 0 0 0 12px rgba(255, 59, 48, 0); }
             100% { transform: scale(1); }
         }
+
         .voice-guide {
             flex: 1;
-            margin-left: 14px;
+            min-width: 0;
         }
+
         .voice-guide h3 {
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: 800;
             color: var(--text-white);
-            margin-bottom: 3px;
+            margin-bottom: 2px;
         }
+
         .voice-guide p {
-            font-size: 11.5px;
+            font-size: 11px;
             color: var(--text-gray);
-            line-height: 1.4;
+            line-height: 1.35;
         }
+
         .speech-transcript-box {
             background: var(--navy-card);
             border: 1px dashed var(--navy-border);
             border-radius: 10px;
-            padding: 10px 14px;
-            font-size: 12.5px;
+            padding: 8px 12px;
+            font-size: 12px;
             color: var(--accent-green);
             font-weight: bold;
-            min-height: 38px;
+            min-height: 36px;
             display: flex;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
+            word-break: break-word;
         }
 
         /* Dimension 3 Boxes Grid */
         .dim-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 14px;
+            gap: 8px;
+            margin-bottom: 10px;
         }
+
         .dim-box {
             background: var(--navy-card);
             border: 1px solid var(--navy-border);
             border-radius: 12px;
-            padding: 10px 12px;
+            padding: 8px 6px;
             text-align: center;
         }
+
         .dim-box label {
-            font-size: 10.5px;
-            font-weight: 700;
+            font-size: 10px;
+            font-weight: 800;
             color: var(--text-gray);
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             text-transform: uppercase;
         }
+
         .dim-box input {
             width: 100%;
             background: transparent;
@@ -346,32 +439,62 @@
             outline: none;
         }
 
+        .dim-box .dim-stepper {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin-top: 4px;
+        }
+
+        .dim-step-btn {
+            background: var(--navy-surface);
+            border: 1px solid var(--navy-border);
+            color: var(--text-gray);
+            border-radius: 6px;
+            padding: 2px 7px;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
         /* Weight Row */
         .weight-row {
             display: grid;
             grid-template-columns: 1.2fr 1fr;
-            gap: 10px;
-            margin-bottom: 14px;
+            gap: 8px;
+            margin-bottom: 12px;
         }
+
+        @media (max-width: 380px) {
+            .weight-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .input-labeled-box {
             background: var(--navy-card);
             border: 1px solid var(--navy-border);
             border-radius: 12px;
-            padding: 10px 14px;
+            padding: 8px 12px;
         }
+
         .input-labeled-box label {
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 700;
             color: var(--text-gray);
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
+
         .input-with-unit {
             display: flex;
             align-items: center;
+            gap: 4px;
         }
+
         .input-with-unit input {
             flex: 1;
+            min-width: 0;
             background: transparent;
             border: none;
             color: var(--text-white);
@@ -379,53 +502,95 @@
             font-weight: 900;
             outline: none;
         }
+
         .input-with-unit span {
             color: var(--brand-orange);
             font-weight: 800;
-            font-size: 13px;
+            font-size: 12px;
+        }
+
+        /* Quick Preset Buttons */
+        .preset-row {
+            display: flex;
+            gap: 6px;
+            margin-top: 6px;
+            overflow-x: auto;
+        }
+
+        .preset-btn {
+            background: var(--navy-surface);
+            border: 1px solid var(--navy-border);
+            color: var(--text-gray);
+            border-radius: 6px;
+            padding: 3px 8px;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .preset-btn.active {
+            background: var(--brand-blue);
+            color: white;
+            border-color: var(--brand-blue);
         }
 
         /* Results Display Card */
         .results-card {
             background: linear-gradient(135deg, rgba(0, 230, 118, 0.08), rgba(2, 136, 209, 0.08));
             border: 1.5px solid var(--accent-green);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 16px;
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 12px;
         }
+
         .results-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            gap: 6px;
             text-align: center;
         }
+
+        @media (max-width: 420px) {
+            .results-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .res-item.highlight {
+                grid-column: span 2;
+                margin-top: 4px;
+                padding-top: 6px;
+                border-top: 1px dashed rgba(0, 230, 118, 0.3);
+            }
+        }
+
         .res-item .res-lbl {
-            font-size: 10.5px;
+            font-size: 10px;
             font-weight: 700;
             color: var(--text-gray);
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
+
         .res-item .res-val {
-            font-size: 17px;
+            font-size: 15px;
             font-weight: 900;
             color: var(--text-white);
         }
+
         .res-item.highlight .res-val {
             color: var(--accent-green);
-            font-size: 20px;
+            font-size: 18px;
         }
 
-        /* Photo Capture Section */
+        /* Photo Capture & Management Section */
         .photo-picker-row {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding-bottom: 6px;
-            margin-bottom: 14px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
         }
+
         .photo-slot {
-            width: 82px;
-            height: 82px;
+            aspect-ratio: 1;
             border-radius: 12px;
             background: var(--navy-card);
             border: 1.5px dashed var(--navy-border);
@@ -436,127 +601,292 @@
             position: relative;
             cursor: pointer;
             overflow: hidden;
-            flex-shrink: 0;
+            transition: border-color 0.15s;
         }
+
+        .photo-slot:hover {
+            border-color: var(--brand-blue);
+        }
+
         .photo-slot img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        .photo-slot .del-photo-btn {
-            position: absolute;
-            top: 3px;
-            right: 3px;
-            background: rgba(255, 59, 48, 0.9);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 11px;
-            cursor: pointer;
+
+        .photo-slot-empty {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 4px;
+            color: var(--text-gray);
+            text-align: center;
+            padding: 4px;
+        }
+
+        .photo-slot-empty span.icon {
+            font-size: 22px;
+        }
+
+        .photo-slot-empty span.txt {
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .photo-overlay-actions {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(7, 13, 27, 0.88);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 4px 2px;
+        }
+
+        .photo-action-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 12px;
+            padding: 3px 6px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .photo-action-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .photo-action-btn.del {
+            color: var(--accent-red);
+        }
+
+        .photo-action-btn.save {
+            color: var(--accent-green);
+        }
+
+        /* Auto-save to phone memory checkbox */
+        .save-memory-option {
+            background: rgba(0, 230, 118, 0.08);
+            border: 1px solid rgba(0, 230, 118, 0.3);
+            border-radius: 10px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--text-white);
+        }
+
+        .save-memory-option input[type="checkbox"] {
+            width: 17px;
+            height: 17px;
+            accent-color: var(--accent-green);
+            cursor: pointer;
         }
 
         /* Action Save Bar */
         .action-save-btn {
             width: 100%;
             background: var(--accent-green);
-            color: var(--navy-dark);
+            color: #070D1B;
             border: none;
             border-radius: 14px;
-            padding: 16px;
-            font-size: 15px;
+            padding: 15px;
+            font-size: 14.5px;
             font-weight: 900;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
             cursor: pointer;
-            box-shadow: 0 4px 16px rgba(0, 230, 118, 0.35);
+            box-shadow: 0 4px 14px rgba(0, 230, 118, 0.35);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            transition: all 0.2s;
+            gap: 8px;
+            transition: all 0.15s;
         }
+
         .action-save-btn:active {
             transform: scale(0.98);
+            background: var(--accent-green-dark);
         }
 
         /* Table & History View */
         .history-controls {
             display: flex;
-            gap: 8px;
-            margin-bottom: 14px;
+            gap: 6px;
+            margin-bottom: 12px;
             flex-wrap: wrap;
         }
+
         .search-box {
             flex: 1;
-            min-width: 160px;
+            min-width: 150px;
             background: var(--navy-card);
             border: 1px solid var(--navy-border);
             border-radius: 10px;
             padding: 8px 12px;
             color: var(--text-white);
-            font-size: 13px;
+            font-size: 12.5px;
         }
-        .records-table-container {
-            overflow-x: auto;
-            border-radius: 12px;
-            border: 1px solid var(--navy-border);
+
+        /* Mobile Cards for History */
+        .history-cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-            text-align: left;
-        }
-        th {
+
+        .package-card {
             background: var(--navy-card);
+            border: 1px solid var(--navy-border);
+            border-radius: 14px;
+            padding: 12px;
+            transition: border-color 0.2s;
+        }
+
+        .package-card:hover {
+            border-color: var(--brand-blue);
+        }
+
+        .pkg-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            border-bottom: 1px dashed var(--navy-border);
+            padding-bottom: 6px;
+        }
+
+        .pkg-awb {
+            font-size: 14px;
+            font-weight: 900;
+            color: var(--brand-orange);
+            font-family: monospace;
+            letter-spacing: 0.5px;
+        }
+
+        .pkg-time {
+            font-size: 10.5px;
             color: var(--text-gray);
-            font-weight: 700;
-            padding: 10px 12px;
-            border-bottom: 1px solid var(--navy-border);
-            white-space: nowrap;
         }
-        td {
-            padding: 10px 12px;
-            border-bottom: 1px solid var(--navy-border);
+
+        .pkg-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .pkg-stat-item .lbl {
+            font-size: 10px;
+            color: var(--text-gray);
+            margin-bottom: 1px;
+        }
+
+        .pkg-stat-item .val {
+            font-weight: bold;
             color: var(--text-white);
-            white-space: nowrap;
         }
-        tr:hover td {
+
+        .pkg-stat-item.charged .val {
+            color: var(--accent-green);
+            font-size: 13.5px;
+            font-weight: 900;
+        }
+
+        .pkg-photos-strip {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .pkg-thumb {
+            width: 52px;
+            height: 52px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid var(--navy-border);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .pkg-actions {
+            display: flex;
+            gap: 6px;
+            justify-content: flex-end;
+            border-top: 1px solid var(--navy-border);
+            padding-top: 8px;
+        }
+
+        .btn-card-action {
+            background: var(--navy-surface);
+            border: 1px solid var(--navy-border);
+            color: var(--text-white);
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 11.5px;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-card-action:active {
+            transform: scale(0.96);
+        }
+
+        .btn-card-action.del {
+            color: var(--accent-red);
+            border-color: rgba(255, 59, 48, 0.4);
+            background: rgba(255, 59, 48, 0.08);
+        }
+
+        .btn-card-action.edit {
+            color: var(--brand-blue);
+            border-color: rgba(2, 136, 209, 0.4);
             background: rgba(2, 136, 209, 0.08);
         }
-        .btn-sm-del {
-            background: rgba(255, 59, 48, 0.15);
-            color: var(--accent-red);
-            border: 1px solid var(--accent-red);
-            border-radius: 6px;
-            padding: 4px 8px;
-            font-size: 11px;
-            cursor: pointer;
+
+        .btn-card-action.save-mem {
+            color: var(--accent-green);
+            border-color: rgba(0, 230, 118, 0.4);
+            background: rgba(0, 230, 118, 0.08);
         }
 
         /* Dashboard Stat Cards */
         .dash-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 16px;
+            gap: 10px;
+            margin-bottom: 12px;
         }
+
         .dash-card {
             background: var(--navy-surface);
             border: 1px solid var(--navy-border);
             border-radius: 14px;
-            padding: 14px;
+            padding: 12px;
+            box-shadow: var(--card-shadow);
         }
+
         .dash-card .dash-num {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 900;
             color: var(--text-white);
             margin-top: 4px;
         }
+
         .dash-card.green .dash-num { color: var(--accent-green); }
         .dash-card.orange .dash-num { color: var(--brand-orange); }
         .dash-card.blue .dash-num { color: var(--brand-blue); }
@@ -570,35 +900,64 @@
             background: var(--navy-surface);
             border: 1.5px solid var(--accent-green);
             color: var(--text-white);
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 999px;
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: bold;
             box-shadow: 0 8px 24px rgba(0,0,0,0.6);
             display: none;
             z-index: 9999;
+            text-align: center;
+            max-width: 90vw;
         }
 
-        /* Modal Preview */
+        /* Modal Overlay */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.82);
+            backdrop-filter: blur(4px);
             display: none;
             align-items: center;
             justify-content: center;
-            padding: 16px;
+            padding: 14px;
             z-index: 1000;
         }
+
         .modal-box {
             background: var(--navy-surface);
             border: 1px solid var(--navy-border);
             border-radius: 18px;
-            max-width: 500px;
+            max-width: 520px;
             width: 100%;
-            padding: 20px;
+            padding: 16px;
             max-height: 90vh;
             overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-photo-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--navy-border);
+            margin-bottom: 10px;
+            background: #000;
+        }
+
+        .modal-photo-item img {
+            width: 100%;
+            max-height: 280px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .modal-photo-bar {
+            padding: 8px 12px;
+            background: var(--navy-card);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
     </style>
 </head>
@@ -621,9 +980,15 @@
 
         <!-- Top Navigation Tabs -->
         <div class="nav-tabs">
-            <button class="tab-nav-btn active" id="tabNavScan" onclick="switchNavTab('scan')">&#128247; Scan & Ukur</button>
-            <button class="tab-nav-btn" id="tabNavHistory" onclick="switchNavTab('history')">&#128203; Riwayat (<span id="totalHeaderCount">0</span>)</button>
-            <button class="tab-nav-btn" id="tabNavDash" onclick="switchNavTab('dash')">&#128202; Dashboard</button>
+            <button class="tab-nav-btn active" id="tabNavScan" onclick="switchNavTab('scan')">
+                &#128247; Scan & Ukur
+            </button>
+            <button class="tab-nav-btn" id="tabNavHistory" onclick="switchNavTab('history')">
+                &#128203; Riwayat <span class="tab-badge" id="totalHeaderCount">0</span>
+            </button>
+            <button class="tab-nav-btn" id="tabNavDash" onclick="switchNavTab('dash')">
+                &#128202; Dashboard
+            </button>
         </div>
 
         <!-- =================================================================== -->
@@ -638,21 +1003,22 @@
                 </div>
 
                 <div class="awb-input-group">
-                    <input type="text" id="inputAwb" class="text-input" placeholder="Scan Barcode atau ketik AWB..." autocomplete="off">
+                    <input type="text" id="inputAwb" class="text-input" placeholder="Scan Barcode / ketik AWB..." autocomplete="off">
                     <button class="btn-scan" onclick="toggleCameraScanner()">
                         <span id="scanBtnIcon">&#128247;</span>
                         <span id="scanBtnText">Kamera</span>
                     </button>
+                    <button class="icon-btn" onclick="clearAwbInput()" title="Bersihkan">&#10006;</button>
                 </div>
 
                 <!-- Camera Barcode Viewport -->
                 <div class="scanner-viewport-box" id="scannerViewport">
                     <video id="scannerVideo" playsinline></video>
                     <div class="scanner-reticle"></div>
-                    <button class="close-scanner-btn" onclick="stopCameraScanner()">Tutup Kamera</button>
+                    <button class="close-scanner-btn" onclick="stopCameraScanner()">&#10006; Tutup Kamera</button>
                 </div>
 
-                <div id="duplicateWarning" style="display:none; color: var(--accent-red); font-size:12px; font-weight:bold; margin-top:4px;">
+                <div id="duplicateWarning" class="dup-alert">
                     &#9888; Peringatan: Nomor AWB ini sudah pernah dicatat dalam riwayat!
                 </div>
             </div>
@@ -661,7 +1027,7 @@
             <div class="card">
                 <div class="card-title">
                     <span>2. DIMENSI & BERAT AKTUAL</span>
-                    <span style="font-size:11px; color:var(--brand-blue); font-weight:bold;" id="modeChainedLabel">Voice Mode: Normal</span>
+                    <span style="font-size:11px; color:var(--brand-blue); font-weight:800;" id="modeChainedLabel">Voice: Normal</span>
                 </div>
 
                 <!-- Voice Dimension Banner -->
@@ -671,7 +1037,7 @@
                             &#127908;
                         </button>
                         <div class="voice-guide">
-                            <h3 id="micStatusText">Tekan Mic & Ucapkan Dimensi</h3>
+                            <h3 id="micStatusText">Tekan Mic & Ucapkan Angka</h3>
                             <p id="micHelpText">Contoh: <strong>"50 70 80"</strong> atau <strong>"50 70 80 berat 8 kilo"</strong></p>
                         </div>
                     </div>
@@ -679,9 +1045,9 @@
                         <span style="color:var(--text-gray); font-weight:normal;">Menunggu input suara...</span>
                     </div>
 
-                    <div style="display: flex; gap: 8px;">
+                    <div style="display: flex; gap: 6px;">
                         <button class="icon-btn" style="flex:1;" onclick="toggleChainedVoiceMode()" id="btnChainedVoice">
-                            &#128257; Mode Voice Berantai: <span id="chainedStatus" style="color:var(--text-gray);">Nonaktif</span>
+                            &#128257; Mode Berantai: <span id="chainedStatus" style="color:var(--text-gray);">Nonaktif</span>
                         </button>
                         <button class="icon-btn" onclick="clearDimensionInputs()">&#10006; Reset</button>
                     </div>
@@ -692,18 +1058,30 @@
                     <div class="dim-box">
                         <label>Panjang (cm)</label>
                         <input type="number" id="dimLength" placeholder="0" min="0" step="any" oninput="calculateVolumes()">
+                        <div class="dim-stepper">
+                            <button class="dim-step-btn" onclick="stepDim('dimLength', -5)">-5</button>
+                            <button class="dim-step-btn" onclick="stepDim('dimLength', 5)">+5</button>
+                        </div>
                     </div>
                     <div class="dim-box">
                         <label>Lebar (cm)</label>
                         <input type="number" id="dimWidth" placeholder="0" min="0" step="any" oninput="calculateVolumes()">
+                        <div class="dim-stepper">
+                            <button class="dim-step-btn" onclick="stepDim('dimWidth', -5)">-5</button>
+                            <button class="dim-step-btn" onclick="stepDim('dimWidth', 5)">+5</button>
+                        </div>
                     </div>
                     <div class="dim-box">
                         <label>Tinggi (cm)</label>
                         <input type="number" id="dimHeight" placeholder="0" min="0" step="any" oninput="calculateVolumes()">
+                        <div class="dim-stepper">
+                            <button class="dim-step-btn" onclick="stepDim('dimHeight', -5)">-5</button>
+                            <button class="dim-step-btn" onclick="stepDim('dimHeight', 5)">+5</button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Actual Weight Box -->
+                <!-- Actual Weight & Divisor Box -->
                 <div class="weight-row">
                     <div class="input-labeled-box">
                         <label>Berat Aktual (Timbangan)</label>
@@ -716,8 +1094,18 @@
                         <label>Pembagi Volumetrik</label>
                         <div class="input-with-unit">
                             <input type="number" id="inputDivisor" value="6000" min="1000" step="500" oninput="calculateVolumes()">
-                            <span style="font-size:11px; color:var(--text-gray);">DIVISOR</span>
+                            <span style="font-size:10px; color:var(--text-gray);">DIVISOR</span>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Quick Preset Divisor -->
+                <div style="margin-bottom: 12px;">
+                    <div style="font-size:10px; color:var(--text-gray); font-weight:bold; margin-bottom:4px;">PRESET PEMBAGI CEPAT:</div>
+                    <div class="preset-row">
+                        <button class="preset-btn active" id="preset6000" onclick="setDivisorPreset(6000)">6.000 (Reguler)</button>
+                        <button class="preset-btn" id="preset5000" onclick="setDivisorPreset(5000)">5.000 (Express)</button>
+                        <button class="preset-btn" id="preset4000" onclick="setDivisorPreset(4000)">4.000 (Cargo/Darat)</button>
                     </div>
                 </div>
 
@@ -727,7 +1115,7 @@
                         <div class="res-item">
                             <div class="res-lbl">Volume Kubikasi</div>
                             <div class="res-val" id="resVolume">0 cm³</div>
-                            <div style="font-size:10px; color:var(--text-gray);" id="resVolumeM3">0.000 m³</div>
+                            <div style="font-size:9.5px; color:var(--text-gray);" id="resVolumeM3">0.000 m³</div>
                         </div>
                         <div class="res-item">
                             <div class="res-lbl">Berat Volumetrik</div>
@@ -741,30 +1129,58 @@
                 </div>
             </div>
 
-            <!-- Step 3: Foto Fisik Barang (Opsional) -->
+            <!-- Step 3: Foto Fisik Barang (Opsional & Update Foto) -->
             <div class="card">
                 <div class="card-title">
-                    <span>3. FOTO DOKUMENTASI BARANG (OPSIONAL)</span>
+                    <span>3. FOTO DOKUMENTASI FISIK (OPSIONAL)</span>
                     <span style="font-size:11px; color:var(--text-gray);" id="photoCountLabel">0 / 3 Foto</span>
                 </div>
 
+                <!-- 3 Photo Slots -->
                 <div class="photo-picker-row" id="photoRow">
-                    <!-- Photo Slots 1, 2, 3 -->
                     <div class="photo-slot" id="photoSlot0" onclick="triggerPhotoPick(0)">
-                        <span style="font-size: 22px;">&#128247;</span>
-                        <span style="font-size: 10px; color: var(--text-gray);">Foto 1</span>
+                        <div class="photo-slot-empty">
+                            <span class="icon">&#128247;</span>
+                            <span class="txt">+ Foto 1</span>
+                        </div>
                     </div>
                     <div class="photo-slot" id="photoSlot1" onclick="triggerPhotoPick(1)">
-                        <span style="font-size: 22px;">&#128247;</span>
-                        <span style="font-size: 10px; color: var(--text-gray);">Foto 2</span>
+                        <div class="photo-slot-empty">
+                            <span class="icon">&#128247;</span>
+                            <span class="txt">+ Foto 2</span>
+                        </div>
                     </div>
                     <div class="photo-slot" id="photoSlot2" onclick="triggerPhotoPick(2)">
-                        <span style="font-size: 22px;">&#128247;</span>
-                        <span style="font-size: 10px; color: var(--text-gray);">Foto 3</span>
+                        <div class="photo-slot-empty">
+                            <span class="icon">&#128247;</span>
+                            <span class="txt">+ Foto 3</span>
+                        </div>
                     </div>
                 </div>
-                <input type="file" id="hiddenPhotoInput" accept="image/*" capture="environment" style="display:none;" onchange="handlePhotoSelected(event)">
-                <p style="font-size:11px; color:var(--text-gray);">Foto bersifat opsional. Anda tetap dapat menyimpan data pengukuran paket meskipun tanpa melampirkan foto.</p>
+
+                <!-- Hidden inputs for Camera and Gallery -->
+                <input type="file" id="hiddenCameraInput" accept="image/*" capture="environment" style="display:none;" onchange="handlePhotoSelected(event)">
+                <input type="file" id="hiddenGalleryInput" accept="image/*" style="display:none;" onchange="handlePhotoSelected(event)">
+
+                <!-- Quick Action Buttons for Photo -->
+                <div style="display:flex; gap:6px; margin-bottom:10px;">
+                    <button class="icon-btn" style="flex:1;" onclick="openCameraPicker()">
+                        &#128247; Ambil Foto Kamera
+                    </button>
+                    <button class="icon-btn" style="flex:1;" onclick="openGalleryPicker()">
+                        &#128444; Pilih dari Galeri
+                    </button>
+                </div>
+
+                <!-- Auto-Save to Phone Memory Checkbox -->
+                <label class="save-memory-option">
+                    <input type="checkbox" id="chkAutoSaveMemory" checked onchange="saveAutoSavePreference()">
+                    <span>💾 Otomatis simpan foto ke Galeri/Memori HP saat Simpan Paket</span>
+                </label>
+
+                <p style="font-size:10.5px; color:var(--text-gray);">
+                    Foto bersifat opsional. Data tetap dapat disimpan tanpa melampirkan foto. Foto yang diambil tersimpan aman secara offline di memori perangkat.
+                </p>
             </div>
 
             <!-- Step 4: Konfirmasi & Simpan Button -->
@@ -788,40 +1204,19 @@
                 <div class="history-controls">
                     <input type="text" id="searchAwbInput" class="search-box" placeholder="Cari nomor AWB..." oninput="filterHistoryList()">
                     <button class="icon-btn" style="background:#1D6F42; color:white; border:none;" onclick="exportToExcel()">
-                        &#128190; Export Excel (.xlsx)
+                        &#128190; Export Excel
                     </button>
                     <button class="icon-btn" onclick="exportToCsv()">
-                        &#128196; Export CSV
+                        &#128196; CSV
                     </button>
                     <button class="icon-btn" onclick="exportPhotosZip()">
                         &#128444; Unduh Foto ZIP
                     </button>
                 </div>
 
-                <div class="records-table-container">
-                    <table id="recordsTable">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nomor AWB</th>
-                                <th>P × L × T (cm)</th>
-                                <th>Volume (cm³)</th>
-                                <th>Aktual</th>
-                                <th>Volumetrik</th>
-                                <th>Dikenakan</th>
-                                <th>Foto</th>
-                                <th>Waktu</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="recordsTableBody">
-                            <tr>
-                                <td colspan="10" style="text-align:center; padding:30px; color:var(--text-gray);">
-                                    Belum ada data paket tersimpan. Mulai scan AWB di tab "Scan & Ukur".
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- Card View for History (Ultra Responsive for Mobile) -->
+                <div class="history-cards-container" id="historyCardsContainer">
+                    <!-- Populated dynamically -->
                 </div>
             </div>
         </div>
@@ -832,19 +1227,19 @@
         <div id="sectionDash" style="display:none;">
             <div class="dash-grid">
                 <div class="dash-card blue">
-                    <div style="font-size:11px; color:var(--text-gray); font-weight:bold;">TOTAL AWB TERCATAT</div>
+                    <div style="font-size:10.5px; color:var(--text-gray); font-weight:800;">TOTAL AWB TERCATAT</div>
                     <div class="dash-num" id="dashTotalAwb">0</div>
                 </div>
                 <div class="dash-card green">
-                    <div style="font-size:11px; color:var(--text-gray); font-weight:bold;">TOTAL BERAT DIKENAKAN</div>
+                    <div style="font-size:10.5px; color:var(--text-gray); font-weight:800;">TOTAL BERAT DIKENAKAN</div>
                     <div class="dash-num" id="dashTotalCharged">0.0 kg</div>
                 </div>
                 <div class="dash-card orange">
-                    <div style="font-size:11px; color:var(--text-gray); font-weight:bold;">TOTAL BERAT AKTUAL</div>
+                    <div style="font-size:10.5px; color:var(--text-gray); font-weight:800;">TOTAL BERAT AKTUAL</div>
                     <div class="dash-num" id="dashTotalActual">0.0 kg</div>
                 </div>
                 <div class="dash-card">
-                    <div style="font-size:11px; color:var(--text-gray); font-weight:bold;">TOTAL FOTO DOKUMENTASI</div>
+                    <div style="font-size:10.5px; color:var(--text-gray); font-weight:800;">TOTAL FOTO BARANG</div>
                     <div class="dash-num" id="dashTotalPhotos">0</div>
                 </div>
             </div>
@@ -854,10 +1249,10 @@
                 <div class="card-title">
                     <span>BACKUP & RESTORE DATA OFFLINE (JSON)</span>
                 </div>
-                <p style="font-size:12px; color:var(--text-gray); margin-bottom:14px;">
-                    Semua data tersimpan aman secara lokal di HP Anda (IndexedDB). Anda dapat mencadangkan seluruh data ke file JSON atau memulihkannya kapan saja.
+                <p style="font-size:11.5px; color:var(--text-gray); margin-bottom:12px;">
+                    Semua data tersimpan aman secara lokal di HP Anda (IndexedDB). Anda dapat mencadangkan seluruh data ke file JSON atau memulihkannya kapan saja tanpa internet.
                 </p>
-                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
                     <button class="icon-btn" onclick="backupJsonData()">
                         &#128190; Download Backup JSON
                     </button>
@@ -875,7 +1270,7 @@
         <!-- Toast Notification Popup -->
         <div class="toast-notif" id="toastNotif">Pesan notifikasi</div>
 
-        <!-- Modal Detail / Foto -->
+        <!-- Modal Detail / Foto Viewer -->
         <div class="modal-overlay" id="detailModal">
             <div class="modal-box">
                 <div class="card-title">
@@ -885,12 +1280,96 @@
                 <div id="modalContent"></div>
             </div>
         </div>
+
+        <!-- Modal Edit Paket & Update Foto -->
+        <div class="modal-overlay" id="editModal">
+            <div class="modal-box">
+                <div class="card-title">
+                    <span>EDIT PAKET & UPDATE FOTO</span>
+                    <button class="icon-btn" onclick="closeEditModal()">&#10006; Batal</button>
+                </div>
+                <input type="hidden" id="editPkgId">
+
+                <div style="margin-bottom:10px;">
+                    <label style="font-size:11px; font-weight:bold; color:var(--text-gray); display:block; margin-bottom:3px;">Nomor AWB</label>
+                    <input type="text" id="editAwb" class="text-input" style="width:100%;">
+                </div>
+
+                <div class="dim-grid" style="margin-bottom:10px;">
+                    <div class="dim-box">
+                        <label>Panjang</label>
+                        <input type="number" id="editLength" step="any" oninput="calcEditModal()">
+                    </div>
+                    <div class="dim-box">
+                        <label>Lebar</label>
+                        <input type="number" id="editWidth" step="any" oninput="calcEditModal()">
+                    </div>
+                    <div class="dim-box">
+                        <label>Tinggi</label>
+                        <input type="number" id="editHeight" step="any" oninput="calcEditModal()">
+                    </div>
+                </div>
+
+                <div class="weight-row" style="margin-bottom:12px;">
+                    <div class="input-labeled-box">
+                        <label>Berat Aktual (kg)</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="editActualWeight" step="any" oninput="calcEditModal()">
+                            <span>KG</span>
+                        </div>
+                    </div>
+                    <div class="input-labeled-box">
+                        <label>Pembagi</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="editDivisor" step="any" oninput="calcEditModal()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-card" style="padding:10px; margin-bottom:12px;">
+                    <div class="results-grid">
+                        <div class="res-item">
+                            <div class="res-lbl">Volume</div>
+                            <div class="res-val" id="editResVol" style="font-size:13px;">0 cm³</div>
+                        </div>
+                        <div class="res-item">
+                            <div class="res-lbl">Volumetrik</div>
+                            <div class="res-val" id="editResVolWeight" style="font-size:13px;">0 kg</div>
+                        </div>
+                        <div class="res-item highlight">
+                            <div class="res-lbl">Dikenakan</div>
+                            <div class="res-val" id="editResCharged" style="font-size:15px;">0 kg</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="font-size:11.5px; font-weight:800; color:var(--text-white); margin-bottom:6px;">
+                    UPDATE FOTO FISIK BARANG (Maks 3):
+                </div>
+                <div class="photo-picker-row" id="editPhotoRow">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <div style="display:flex; gap:6px; margin-bottom:14px;">
+                    <button class="icon-btn" style="flex:1;" onclick="triggerEditPhotoAdd('camera')">
+                        &#128247; Tambah Kamera
+                    </button>
+                    <button class="icon-btn" style="flex:1;" onclick="triggerEditPhotoAdd('gallery')">
+                        &#128444; Tambah Galeri
+                    </button>
+                </div>
+
+                <button class="action-save-btn" onclick="saveEditedPackage()">
+                    <span>&#10003; SIMPAN PEMBARUAN PAKET</span>
+                </button>
+            </div>
+        </div>
     </div>
 
-    <!-- SCRIPT JAVASCRIPT LOGIC LENGKAP -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
         // =====================================================================
-        // 1. INDEXEDDB LOCAL STORAGE MANAGER (OFFLINE PERSISTENCE)
+        // 1. INDEXEDDB LOCAL STORAGE MANAGER
         // =====================================================================
         const DB_NAME = 'FL_WORKMATE_DB';
         const DB_VERSION = 1;
@@ -930,6 +1409,16 @@
             });
         }
 
+        function dbUpdatePackage(pkg) {
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction([STORE_NAME], 'readwrite');
+                const store = tx.objectStore(STORE_NAME);
+                const req = store.put(pkg);
+                req.onsuccess = () => resolve(req.result);
+                req.onerror = () => reject(req.error);
+            });
+        }
+
         function dbGetAllPackages() {
             return new Promise((resolve, reject) => {
                 const tx = db.transaction([STORE_NAME], 'readonly');
@@ -960,15 +1449,88 @@
             });
         }
 
-        // State Data Global
+        // State Global
         let allPackagesList = [];
         let currentPhotos = [null, null, null];
+        let editModalPhotos = [];
         let targetSlotIndex = 0;
+        let isEditTarget = false;
         let isChainedMode = false;
         let lastInputMethod = 'manual';
 
+        // Load Preferences
+        if (localStorage.getItem('fl_auto_save_memory') === 'false') {
+            document.getElementById('chkAutoSaveMemory').checked = false;
+        }
+
+        function saveAutoSavePreference() {
+            const chk = document.getElementById('chkAutoSaveMemory').checked;
+            localStorage.setItem('fl_auto_save_memory', chk ? 'true' : 'false');
+        }
+
         // =====================================================================
-        // 2. NAV TABS SWITCHER
+        // 2. SAVING PHOTOS DIRECTLY TO PHONE MEMORY / GALLERY
+        // =====================================================================
+        /**
+         * Simpan foto ke memori telepon:
+         * 1. Jika di Android App WebView, panggil AndroidBridge native interface untuk simpan ke Pictures/FL_WORKMATE.
+         * 2. Jika di Web Browser (Chrome/Firefox HP/Desktop), unduh file JPG via blob download.
+         */
+        function savePhotoToPhoneMemory(dataUrl, fileName) {
+            if (!dataUrl) return false;
+            fileName = fileName || `FL_${Date.now()}.jpg`;
+
+            // Android Native Bridge Check
+            if (window.AndroidBridge && typeof window.AndroidBridge.saveImageToGallery === 'function') {
+                try {
+                    const ok = window.AndroidBridge.saveImageToGallery(dataUrl, fileName);
+                    if (ok) return true;
+                } catch(err) {
+                    console.warn('AndroidBridge error, fallback to browser download:', err);
+                }
+            }
+
+            // Web Browser Fallback (Blob anchor download)
+            try {
+                const parts = dataUrl.split(',');
+                const mime = parts[0].split(':')[1].split(';')[0];
+                const binary = atob(parts[1]);
+                const array = [];
+                for (let i = 0; i < binary.length; i++) {
+                    array.push(binary.charCodeAt(i));
+                }
+                const blob = new Blob([new Uint8Array(array)], { type: mime });
+                const blobUrl = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+                showToast(`Foto tersimpan ke Memori HP: ${fileName}`);
+                return true;
+            } catch(e) {
+                console.error('Failed to save to device:', e);
+                showToast('Gagal mengunduh foto: ' + e.message);
+                return false;
+            }
+        }
+
+        function saveAllPhotosForAwb(pkg) {
+            if (!pkg.photos || pkg.photos.length === 0) {
+                showToast('Tidak ada foto untuk diunduh.');
+                return;
+            }
+            pkg.photos.forEach((photoData, idx) => {
+                const filename = `${pkg.awb}_foto_${idx + 1}.jpg`;
+                savePhotoToPhoneMemory(photoData, filename);
+            });
+            showToast(`Menyimpan ${pkg.photos.length} foto AWB ${pkg.awb} ke Memori HP...`);
+        }
+
+        // =====================================================================
+        // 3. NAV TABS SWITCHER
         // =====================================================================
         function switchNavTab(tab) {
             document.getElementById('sectionScan').style.display = tab === 'scan' ? 'block' : 'none';
@@ -987,7 +1549,7 @@
         }
 
         // =====================================================================
-        // 3. BARCODE CAMERA SCANNER (BarcodeDetector API & ZXing Fallback)
+        // 4. BARCODE CAMERA SCANNER
         // =====================================================================
         let codeReader = null;
         let isScannerRunning = false;
@@ -1009,15 +1571,15 @@
 
             isScannerRunning = true;
 
-            // Priority 1: ZXing Barcode Reader (Cross-browser for Code 128 / QR / UPC)
+            // ZXing Barcode Reader
             try {
                 if (window.ZXing) {
                     codeReader = new ZXing.BrowserMultiFormatReader();
                     const videoInputDevices = await codeReader.listVideoInputDevices();
-                    // Prefer back camera (environment)
                     let selectedDeviceId = videoInputDevices[0]?.deviceId;
                     for (const device of videoInputDevices) {
-                        if (device.label.toLowerCase().includes('back') || device.label.toLowerCase().includes('belakang')) {
+                        const lbl = device.label.toLowerCase();
+                        if (lbl.includes('back') || lbl.includes('belakang') || lbl.includes('environment')) {
                             selectedDeviceId = device.deviceId;
                             break;
                         }
@@ -1031,10 +1593,10 @@
                     return;
                 }
             } catch(e) {
-                console.warn('ZXing camera init error, fallback to HTML5 stream:', e);
+                console.warn('ZXing init error, fallback to HTML5 BarcodeDetector:', e);
             }
 
-            // Fallback: Standard getUserMedia with BarcodeDetector
+            // Fallback: BarcodeDetector API
             try {
                 mediaStream = await navigator.mediaDevices.getUserMedia({
                     video: { facingMode: { ideal: "environment" } },
@@ -1087,9 +1649,12 @@
             playBeepSound();
             showToast('AWB Berhasil Dipindai: ' + cleanAwb);
             checkAwbDuplicate(cleanAwb);
-
-            // Auto-focus on dimensions or voice trigger
             document.getElementById('dimLength').focus();
+        }
+
+        function clearAwbInput() {
+            document.getElementById('inputAwb').value = '';
+            document.getElementById('duplicateWarning').style.display = 'none';
         }
 
         document.getElementById('inputAwb').addEventListener('input', (e) => {
@@ -1123,7 +1688,7 @@
         }
 
         // =====================================================================
-        // 4. FITUR UNGGULAN: VOICE DIMENSION INPUT (Web Speech API Indonesian)
+        // 5. VOICE DIMENSION INPUT
         // =====================================================================
         let speechRecognition = null;
         let isRecordingVoice = false;
@@ -1151,7 +1716,6 @@
             };
 
             rec.onerror = (event) => {
-                console.warn('Speech recognition error:', event.error);
                 if (event.error !== 'no-speech') {
                     showToast('Pengenalan suara: ' + event.error);
                 }
@@ -1180,7 +1744,7 @@
         function startVoiceRecognition() {
             const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRec) {
-                showToast('Browser Anda belum mendukung Web Speech API. Silakan input dimensi secara manual.');
+                showToast('Browser belum mendukung Web Speech API. Silakan input manual.');
                 return;
             }
             speechRecognition = initSpeechRecognition();
@@ -1194,7 +1758,7 @@
         function stopVoiceRecognition() {
             isRecordingVoice = false;
             document.getElementById('btnMic').classList.remove('recording');
-            document.getElementById('micStatusText').innerText = 'Tekan Mic & Ucapkan Dimensi';
+            document.getElementById('micStatusText').innerText = 'Tekan Mic & Ucapkan Angka';
             document.getElementById('micHelpText').innerText = 'Contoh: "50 70 80" atau "50 70 80 berat 8 kilo"';
             if (speechRecognition) {
                 try { speechRecognition.stop(); } catch(e) {}
@@ -1204,9 +1768,9 @@
 
         function toggleChainedVoiceMode() {
             isChainedMode = !isChainedMode;
-            document.getElementById('chainedStatus').innerText = isChainedMode ? 'AKTIF (Berantai)' : 'Nonaktif';
+            document.getElementById('chainedStatus').innerText = isChainedMode ? 'AKTIF' : 'Nonaktif';
             document.getElementById('chainedStatus').style.color = isChainedMode ? 'var(--accent-green)' : 'var(--text-gray)';
-            document.getElementById('modeChainedLabel').innerText = isChainedMode ? 'Voice Mode: Berantai (Continuous)' : 'Voice Mode: Normal';
+            document.getElementById('modeChainedLabel').innerText = isChainedMode ? 'Voice: Berantai' : 'Voice: Normal';
 
             if (isRecordingVoice) {
                 stopVoiceRecognition();
@@ -1214,10 +1778,6 @@
             }
         }
 
-        /**
-         * Mengurai teks suara menjadi Panjang, Lebar, Tinggi, dan Berat Aktual
-         * Contoh: "50 70 80", "50 kali 70 kali 80", "50 70 80 berat 8 kilo"
-         */
         function processVoiceText(text) {
             lastInputMethod = 'voice';
             const cleanText = text.toLowerCase()
@@ -1226,39 +1786,29 @@
                 .replace(/sentimeter|senti|cm/g, ' ')
                 .replace(/kilogram|kilo|kg/g, ' kg ');
 
-            // Deteksi jika pengguna menyebut berat, misal "berat 8 kilo" atau "berat 8.5 kg"
             let actualWeightDetected = null;
             const weightMatch = cleanText.match(/(?:berat|bobot)\s*(\d+(?:\.\d+)?)/);
             if (weightMatch) {
                 actualWeightDetected = parseFloat(weightMatch[1]);
             }
 
-            // Ambil semua angka murni
-            // Filter string untuk mengambil angka
             const numbers = cleanText.match(/\d+(?:\.\d+)?/g);
             if (!numbers || numbers.length === 0) {
                 showToast('Tidak ada angka terdeteksi. Silakan ulangi.');
                 return;
             }
 
-            // Jika ada berat, angka dimensi adalah angka sebelum angka berat
             let dimNumbers = numbers.map(Number);
             if (weightMatch && actualWeightDetected !== null) {
-                // Keluarkan angka berat dari daftar dimensi jika cocok
                 const idx = dimNumbers.indexOf(actualWeightDetected);
                 if (idx !== -1) {
                     dimNumbers.splice(idx, 1);
                 }
             }
 
-            // Validasi tepat 3 angka untuk dimensi (Panjang, Lebar, Tinggi)
             if (dimNumbers.length < 3) {
-                showToast(`Terdeteksi ${dimNumbers.length} angka. Dimensi memerlukan 3 angka (Panjang, Lebar, Tinggi). Ulangi.`);
+                showToast(`Terdeteksi ${dimNumbers.length} angka. Perlu 3 angka (P, L, T). Ulangi.`);
                 return;
-            }
-
-            if (dimNumbers.length > 3 && !isChainedMode) {
-                showToast(`Terdeteksi ${dimNumbers.length} angka. Mengambil 3 angka pertama untuk dimensi.`);
             }
 
             const length = dimNumbers[0];
@@ -1276,8 +1826,6 @@
             calculateVolumes();
             playBeepSound();
             showToast(`Dimensi: ${length} × ${width} × ${height} cm${actualWeightDetected ? ' • Berat: ' + actualWeightDetected + ' kg' : ''}`);
-
-            // Jika mode berantai aktif dan ada AWB yang sudah siap, bisa konfirmasi
         }
 
         function clearDimensionInputs() {
@@ -1289,8 +1837,25 @@
             calculateVolumes();
         }
 
+        function stepDim(inputId, delta) {
+            const el = document.getElementById(inputId);
+            let val = (parseFloat(el.value) || 0) + delta;
+            if (val < 0) val = 0;
+            el.value = val;
+            calculateVolumes();
+        }
+
+        function setDivisorPreset(val) {
+            document.getElementById('inputDivisor').value = val;
+            document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+            if (document.getElementById(`preset${val}`)) {
+                document.getElementById(`preset${val}`).classList.add('active');
+            }
+            calculateVolumes();
+        }
+
         // =====================================================================
-        // 5. KALKULATOR VOLUME & BERAT VOLUMETRIK
+        // 6. KALKULATOR VOLUME & BERAT VOLUMETRIK
         // =====================================================================
         function calculateVolumes() {
             const l = parseFloat(document.getElementById('dimLength').value) || 0;
@@ -1323,18 +1888,32 @@
         }
 
         // =====================================================================
-        // 6. FOTO DOKUMENTASI FISIK BARANG (OPSIONAL MAX 3 FOTO)
+        // 7. FOTO MANAGEMENT (AMBIL, GANTI, HAPUS, SIMPAN KE MEMORI HP)
         // =====================================================================
         function triggerPhotoPick(slotIndex) {
             targetSlotIndex = slotIndex;
-            document.getElementById('hiddenPhotoInput').click();
+            isEditTarget = false;
+            // Jika slot sudah ada gambar, beri pilihan: Ganti / Lihat
+            if (currentPhotos[slotIndex]) {
+                const action = confirm('Slot ini sudah berisi foto.\n\nKlik OK untuk GANTI FOTO baru, atau CANCEL untuk batal.');
+                if (!action) return;
+            }
+            openCameraPicker();
+        }
+
+        function openCameraPicker() {
+            document.getElementById('hiddenCameraInput').click();
+        }
+
+        function openGalleryPicker() {
+            document.getElementById('hiddenGalleryInput').click();
         }
 
         function handlePhotoSelected(event) {
             const file = event.target.files[0];
             if (!file) return;
 
-            // Kompres foto sebelum disimpan ke memory/IndexedDB (max 1024px)
+            // Kompres foto (max 1024px)
             const reader = new FileReader();
             reader.onload = (e) => {
                 const img = new Image();
@@ -1359,9 +1938,20 @@
                     ctx.drawImage(img, 0, 0, width, height);
 
                     const compressedBase64 = canvas.toDataURL('image/jpeg', 0.85);
-                    currentPhotos[targetSlotIndex] = compressedBase64;
-                    renderPhotoSlots();
-                    showToast(`Foto ${targetSlotIndex + 1} berhasil ditambahkan!`);
+
+                    if (isEditTarget) {
+                        if (targetSlotIndex < editModalPhotos.length) {
+                            editModalPhotos[targetSlotIndex] = compressedBase64;
+                        } else {
+                            editModalPhotos.push(compressedBase64);
+                        }
+                        renderEditPhotoSlots();
+                        showToast('Foto diperbarui di edit modal!');
+                    } else {
+                        currentPhotos[targetSlotIndex] = compressedBase64;
+                        renderPhotoSlots();
+                        showToast(`Foto ${targetSlotIndex + 1} berhasil ditambahkan!`);
+                    }
                 };
                 img.src = e.target.result;
             };
@@ -1370,9 +1960,19 @@
         }
 
         function removePhoto(slotIndex, event) {
-            event.stopPropagation();
+            if (event) event.stopPropagation();
             currentPhotos[slotIndex] = null;
             renderPhotoSlots();
+            showToast(`Foto ${slotIndex + 1} dihapus.`);
+        }
+
+        function saveSlotPhotoToMemory(slotIndex, event) {
+            if (event) event.stopPropagation();
+            const photoData = currentPhotos[slotIndex];
+            if (!photoData) return;
+            const awb = document.getElementById('inputAwb').value.trim() || 'PAKET';
+            const filename = `${awb}_foto_${slotIndex + 1}.jpg`;
+            savePhotoToPhoneMemory(photoData, filename);
         }
 
         function renderPhotoSlots() {
@@ -1383,24 +1983,37 @@
                     count++;
                     slot.innerHTML = `
                         <img src="${currentPhotos[i]}" alt="Foto ${i+1}" />
-                        <button class="del-photo-btn" onclick="removePhoto(${i}, event)">&times;</button>
+                        <div class="photo-overlay-actions">
+                            <button class="photo-action-btn" title="Ganti Foto" onclick="changeSlotPhoto(${i}, event)">&#128257; Ganti</button>
+                            <button class="photo-action-btn save" title="Simpan ke HP" onclick="saveSlotPhotoToMemory(${i}, event)">💾 Simpan</button>
+                            <button class="photo-action-btn del" title="Hapus" onclick="removePhoto(${i}, event)">&#10006;</button>
+                        </div>
                     `;
                 } else {
                     slot.innerHTML = `
-                        <span style="font-size: 22px;">&#128247;</span>
-                        <span style="font-size: 10px; color: var(--text-gray);">Foto ${i+1}</span>
+                        <div class="photo-slot-empty">
+                            <span class="icon">&#128247;</span>
+                            <span class="txt">+ Foto ${i+1}</span>
+                        </div>
                     `;
                 }
             }
             document.getElementById('photoCountLabel').innerText = `${count} / 3 Foto`;
         }
 
+        function changeSlotPhoto(slotIndex, event) {
+            if (event) event.stopPropagation();
+            targetSlotIndex = slotIndex;
+            isEditTarget = false;
+            openCameraPicker();
+        }
+
         // =====================================================================
-        // 7. KONFIRMASI & SIMPAN DATA PAKET
+        // 8. KONFIRMASI & SIMPAN DATA PAKET
         // =====================================================================
         async function saveCurrentPackageRecord() {
             const awbInput = document.getElementById('inputAwb');
-            const awb = awbInput.value.trim();
+            const awb = awbInput.value.trim().toUpperCase();
 
             if (!awb) {
                 showToast('Nomor AWB wajib diisi atau discan terlebih dahulu!');
@@ -1414,7 +2027,6 @@
                 return;
             }
 
-            // Cek duplikat konfirmasi jika sudah ada
             const isDup = checkAwbDuplicate(awb);
             if (isDup) {
                 const confirmDup = confirm(`Nomor AWB "${awb}" sudah pernah tercatat sebelumnya. Tetap simpan sebagai entri baru?`);
@@ -1422,6 +2034,15 @@
             }
 
             const activePhotos = currentPhotos.filter(p => p !== null);
+
+            // Cek apakah toggle auto-save ke memori HP aktif
+            const autoSaveMemory = document.getElementById('chkAutoSaveMemory').checked;
+            if (autoSaveMemory && activePhotos.length > 0) {
+                activePhotos.forEach((photoData, idx) => {
+                    const filename = `${awb}_foto_${idx + 1}.jpg`;
+                    savePhotoToPhoneMemory(photoData, filename);
+                });
+            }
 
             const record = {
                 awb: awb,
@@ -1444,11 +2065,10 @@
                 playBeepSound();
                 showToast(`Data AWB ${awb} berhasil disimpan!`);
 
-                // Auto reset input untuk scan AWB berikutnya
                 resetFormForNextPackage();
                 await loadAllRecords();
             } catch(e) {
-                showToast('Gagal menyimpan ke penyimpanan lokal: ' + e.message);
+                showToast('Gagal menyimpan: ' + e.message);
             }
         }
 
@@ -1464,64 +2084,114 @@
         }
 
         // =====================================================================
-        // 8. RIWAYAT & PENGELOLAAN DATA (TABLE, SEARCH, DELETE, DETAIL)
+        // 9. RIWAYAT PAKET & EDIT / UPDATE FOTO
         // =====================================================================
         async function loadAllRecords() {
             try {
                 allPackagesList = await dbGetAllPackages();
-                // Urutkan dari yang terbaru
                 allPackagesList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
                 document.getElementById('totalHeaderCount').innerText = allPackagesList.length;
                 document.getElementById('historyCountBadge').innerText = `${allPackagesList.length} Paket`;
 
-                renderHistoryTable(allPackagesList);
+                renderHistoryCards(allPackagesList);
                 updateDashboardStats(allPackagesList);
             } catch(e) {
                 console.error(e);
             }
         }
 
-        function renderHistoryTable(records) {
-            const tbody = document.getElementById('recordsTableBody');
+        function renderHistoryCards(records) {
+            const container = document.getElementById('historyCardsContainer');
             if (records.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="10" style="text-align:center; padding:30px; color:var(--text-gray);">
-                            Belum ada catatan pengukuran paket.
-                        </td>
-                    </tr>
+                container.innerHTML = `
+                    <div style="text-align:center; padding:36px 14px; color:var(--text-gray); background:var(--navy-card); border-radius:14px; border:1px dashed var(--navy-border);">
+                        <div style="font-size:32px; margin-bottom:8px;">&#128230;</div>
+                        <div style="font-weight:bold; margin-bottom:4px;">Belum ada catatan paket.</div>
+                        <div style="font-size:11.5px;">Mulai scan barcode di tab "Scan & Ukur".</div>
+                    </div>
                 `;
                 return;
             }
 
-            tbody.innerHTML = records.map((r, i) => `
-                <tr>
-                    <td>${i + 1}</td>
-                    <td><strong style="color:var(--brand-orange);">${escapeHtml(r.awb)}</strong></td>
-                    <td>${r.length} × ${r.width} × ${r.height}</td>
-                    <td>${r.volumeCm3.toLocaleString('id-ID')}</td>
-                    <td>${r.actualWeight} kg</td>
-                    <td>${r.volumetricWeight} kg</td>
-                    <td><strong style="color:var(--accent-green);">${r.chargedWeight} kg</strong></td>
-                    <td>${r.photos && r.photos.length > 0 ? `&#128247; ${r.photos.length}` : '-'}</td>
-                    <td style="font-size:11px; color:var(--text-gray);">${new Date(r.createdAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</td>
-                    <td>
-                        <button class="icon-btn" style="padding:3px 8px; font-size:11px;" onclick="viewDetailModal(${r.id})">&#128065;</button>
-                        <button class="btn-sm-del" onclick="confirmDeleteRecord(${r.id})">&#128465;</button>
-                    </td>
-                </tr>
-            `).join('');
+            container.innerHTML = records.map((r, i) => {
+                const photosHtml = (r.photos && r.photos.length > 0)
+                    ? `<div class="pkg-photos-strip">
+                        ${r.photos.map((p, pIdx) => `
+                            <img src="${p}" class="pkg-thumb" onclick="viewDetailModal(${r.id})" title="Klik untuk lihat foto" />
+                        `).join('')}
+                       </div>`
+                    : '';
+
+                const timeStr = new Date(r.createdAt).toLocaleString('id-ID', {
+                    day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+                });
+
+                return `
+                    <div class="package-card">
+                        <div class="pkg-header">
+                            <div>
+                                <span style="font-size:10px; color:var(--text-gray); margin-right:4px;">#${i + 1}</span>
+                                <span class="pkg-awb">${escapeHtml(r.awb)}</span>
+                            </div>
+                            <span class="pkg-time">${timeStr}</span>
+                        </div>
+
+                        <div class="pkg-body">
+                            <div class="pkg-stat-item">
+                                <div class="lbl">DIMENSI (P × L × T)</div>
+                                <div class="val">${r.length} × ${r.width} × ${r.height} cm</div>
+                            </div>
+                            <div class="pkg-stat-item">
+                                <div class="lbl">VOLUME KUBIKASI</div>
+                                <div class="val">${r.volumeCm3.toLocaleString('id-ID')} cm³</div>
+                            </div>
+                            <div class="pkg-stat-item">
+                                <div class="lbl">BERAT AKTUAL / VOL</div>
+                                <div class="val">${r.actualWeight} kg / ${r.volumetricWeight} kg</div>
+                            </div>
+                            <div class="pkg-stat-item charged">
+                                <div class="lbl">&#9878; BERAT DIKENAKAN</div>
+                                <div class="val">${r.chargedWeight} kg</div>
+                            </div>
+                        </div>
+
+                        ${photosHtml}
+
+                        <div class="pkg-actions">
+                            <button class="btn-card-action" onclick="viewDetailModal(${r.id})">
+                                &#128065; Detail
+                            </button>
+                            <button class="btn-card-action edit" onclick="openEditModal(${r.id})">
+                                &#9998; Edit & Foto
+                            </button>
+                            ${(r.photos && r.photos.length > 0) ? `
+                                <button class="btn-card-action save-mem" onclick="saveAllPhotosByRecordId(${r.id})">
+                                    💾 Simpan Foto
+                                </button>
+                            ` : ''}
+                            <button class="btn-card-action del" onclick="confirmDeleteRecord(${r.id})">
+                                &#128465;
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         function filterHistoryList() {
             const query = document.getElementById('searchAwbInput').value.trim().toLowerCase();
             if (!query) {
-                renderHistoryTable(allPackagesList);
+                renderHistoryCards(allPackagesList);
             } else {
                 const filtered = allPackagesList.filter(p => p.awb.toLowerCase().includes(query));
-                renderHistoryTable(filtered);
+                renderHistoryCards(filtered);
             }
+        }
+
+        function saveAllPhotosByRecordId(id) {
+            const pkg = allPackagesList.find(p => p.id === id);
+            if (pkg) saveAllPhotosForAwb(pkg);
         }
 
         async function confirmDeleteRecord(id) {
@@ -1533,30 +2203,52 @@
             }
         }
 
+        // =====================================================================
+        // 10. DETAIL MODAL & FULL PHOTO VIEWER
+        // =====================================================================
         function viewDetailModal(id) {
             const pkg = allPackagesList.find(p => p.id === id);
             if (!pkg) return;
 
-            document.getElementById('modalAwbTitle').innerText = `Detail AWB: ${pkg.awb}`;
-            const photosHtml = (pkg.photos && pkg.photos.length > 0)
-                ? `<div style="display:flex; gap:10px; margin-top:10px; overflow-x:auto;">
-                    ${pkg.photos.map(p => `<img src="${p}" style="width:120px; height:120px; object-fit:cover; border-radius:10px; border:1px solid var(--navy-border);" />`).join('')}
-                   </div>`
-                : '<p style="color:var(--text-gray); font-size:12px; margin-top:6px;">Tidak ada foto dilampirkan.</p>';
+            document.getElementById('modalAwbTitle').innerText = `AWB: ${pkg.awb}`;
+            let photosHtml = '<p style="color:var(--text-gray); font-size:12px; margin-top:6px;">Tidak ada foto dilampirkan.</p>';
+
+            if (pkg.photos && pkg.photos.length > 0) {
+                photosHtml = pkg.photos.map((photoData, idx) => `
+                    <div class="modal-photo-item">
+                        <img src="${photoData}" alt="Foto ${idx+1}" />
+                        <div class="modal-photo-bar">
+                            <span style="font-size:11px; font-weight:bold; color:var(--text-white);">Foto ${idx + 1}</span>
+                            <button class="icon-btn" onclick="savePhotoToPhoneMemory('${photoData}', '${pkg.awb}_foto_${idx+1}.jpg')">
+                                💾 Simpan ke Galeri HP
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
 
             document.getElementById('modalContent').innerHTML = `
-                <div style="font-size:13px; line-height:1.7;">
-                    <div><strong>Nomor AWB:</strong> ${escapeHtml(pkg.awb)}</div>
+                <div style="font-size:13px; line-height:1.7; margin-bottom:14px;">
+                    <div><strong>Nomor AWB:</strong> <span style="color:var(--brand-orange); font-weight:900;">${escapeHtml(pkg.awb)}</span></div>
                     <div><strong>Dimensi:</strong> ${pkg.length} × ${pkg.width} × ${pkg.height} cm</div>
-                    <div><strong>Volume:</strong> ${pkg.volumeCm3.toLocaleString('id-ID')} cm³ (${pkg.volumeM3} m³)</div>
+                    <div><strong>Volume Kubikasi:</strong> ${pkg.volumeCm3.toLocaleString('id-ID')} cm³ (${pkg.volumeM3} m³)</div>
                     <div><strong>Berat Aktual:</strong> ${pkg.actualWeight} kg</div>
                     <div><strong>Berat Volumetrik:</strong> ${pkg.volumetricWeight} kg (Divisor ${pkg.divisor})</div>
-                    <div><strong>Berat Dikenakan:</strong> <span style="color:var(--accent-green); font-weight:bold;">${pkg.chargedWeight} kg</span></div>
+                    <div><strong>Berat Dikenakan:</strong> <span style="color:var(--accent-green); font-weight:900; font-size:15px;">${pkg.chargedWeight} kg</span></div>
                     <div><strong>Metode Input:</strong> ${pkg.inputMethod.toUpperCase()}</div>
                     <div><strong>Waktu Dicatat:</strong> ${new Date(pkg.createdAt).toLocaleString('id-ID')}</div>
-                    <div style="margin-top:12px;"><strong>Foto Barang:</strong></div>
-                    ${photosHtml}
                 </div>
+
+                ${(pkg.photos && pkg.photos.length > 0) ? `
+                    <button class="icon-btn" style="width:100%; margin-bottom:12px; background:var(--navy-card);" onclick="saveAllPhotosForAwb(allPackagesList.find(p => p.id === ${id}))">
+                        📥 Simpan Semua Foto AWB ini ke Memori HP
+                    </button>
+                ` : ''}
+
+                <div style="font-size:12px; font-weight:bold; color:var(--text-white); margin-bottom:8px;">
+                    Foto Dokumentasi (${(pkg.photos && pkg.photos.length) || 0}):
+                </div>
+                <div>${photosHtml}</div>
             `;
             document.getElementById('detailModal').style.display = 'flex';
         }
@@ -1566,7 +2258,153 @@
         }
 
         // =====================================================================
-        // 9. EXPORT EXCEL (.xlsx), CSV, ZIP FOTO, DAN BACKUP/RESTORE
+        // 11. EDIT PAKET & UPDATE FOTO MODAL
+        // =====================================================================
+        function openEditModal(id) {
+            const pkg = allPackagesList.find(p => p.id === id);
+            if (!pkg) return;
+
+            document.getElementById('editPkgId').value = pkg.id;
+            document.getElementById('editAwb').value = pkg.awb;
+            document.getElementById('editLength').value = pkg.length;
+            document.getElementById('editWidth').value = pkg.width;
+            document.getElementById('editHeight').value = pkg.height;
+            document.getElementById('editActualWeight').value = pkg.actualWeight;
+            document.getElementById('editDivisor').value = pkg.divisor || 6000;
+
+            editModalPhotos = (pkg.photos ? [...pkg.photos] : []);
+            renderEditPhotoSlots();
+            calcEditModal();
+
+            document.getElementById('editModal').style.display = 'flex';
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        function calcEditModal() {
+            const l = parseFloat(document.getElementById('editLength').value) || 0;
+            const w = parseFloat(document.getElementById('editWidth').value) || 0;
+            const h = parseFloat(document.getElementById('editHeight').value) || 0;
+            const act = parseFloat(document.getElementById('editActualWeight').value) || 0;
+            const div = parseFloat(document.getElementById('editDivisor').value) || 6000;
+
+            const vol = Math.round(l * w * h);
+            const volKg = (vol / div);
+            const chg = Math.max(act, volKg);
+
+            document.getElementById('editResVol').innerText = vol.toLocaleString('id-ID') + ' cm³';
+            document.getElementById('editResVolWeight').innerText = volKg.toFixed(2) + ' kg';
+            document.getElementById('editResCharged').innerText = chg.toFixed(2) + ' kg';
+
+            return { length: l, width: w, height: h, actualWeight: act, divisor: div, volumeCm3: vol, volumetricWeight: parseFloat(volKg.toFixed(2)), chargedWeight: parseFloat(chg.toFixed(2)) };
+        }
+
+        function renderEditPhotoSlots() {
+            const container = document.getElementById('editPhotoRow');
+            let html = '';
+            for (let i = 0; i < 3; i++) {
+                if (i < editModalPhotos.length && editModalPhotos[i]) {
+                    html += `
+                        <div class="photo-slot">
+                            <img src="${editModalPhotos[i]}" alt="Foto ${i+1}" />
+                            <div class="photo-overlay-actions">
+                                <button class="photo-action-btn" title="Ganti" onclick="changeEditPhoto(${i}, event)">&#128257;</button>
+                                <button class="photo-action-btn save" title="Simpan ke HP" onclick="savePhotoToPhoneMemory('${editModalPhotos[i]}', 'edit_foto_${i+1}.jpg')">💾</button>
+                                <button class="photo-action-btn del" title="Hapus" onclick="removeEditPhoto(${i}, event)">&#10006;</button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="photo-slot" onclick="addEditPhotoSlot(${i})">
+                            <div class="photo-slot-empty">
+                                <span class="icon">&#128247;</span>
+                                <span class="txt">+ Tambah</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            container.innerHTML = html;
+        }
+
+        function removeEditPhoto(index, event) {
+            if (event) event.stopPropagation();
+            editModalPhotos.splice(index, 1);
+            renderEditPhotoSlots();
+        }
+
+        function changeEditPhoto(index, event) {
+            if (event) event.stopPropagation();
+            targetSlotIndex = index;
+            isEditTarget = true;
+            openCameraPicker();
+        }
+
+        function addEditPhotoSlot(index) {
+            if (editModalPhotos.length >= 3) {
+                showToast('Maksimal 3 foto.');
+                return;
+            }
+            targetSlotIndex = index;
+            isEditTarget = true;
+            openCameraPicker();
+        }
+
+        function triggerEditPhotoAdd(source) {
+            if (editModalPhotos.length >= 3) {
+                showToast('Maksimal 3 foto.');
+                return;
+            }
+            targetSlotIndex = editModalPhotos.length;
+            isEditTarget = true;
+            if (source === 'camera') openCameraPicker();
+            else openGalleryPicker();
+        }
+
+        async function saveEditedPackage() {
+            const id = parseInt(document.getElementById('editPkgId').value, 10);
+            const pkg = allPackagesList.find(p => p.id === id);
+            if (!pkg) return;
+
+            const awb = document.getElementById('editAwb').value.trim().toUpperCase();
+            if (!awb) {
+                showToast('AWB tidak boleh kosong!');
+                return;
+            }
+
+            const calc = calcEditModal();
+            if (calc.length <= 0 || calc.width <= 0 || calc.height <= 0) {
+                showToast('Dimensi harus lebih dari 0!');
+                return;
+            }
+
+            pkg.awb = awb;
+            pkg.length = calc.length;
+            pkg.width = calc.width;
+            pkg.height = calc.height;
+            pkg.actualWeight = calc.actualWeight;
+            pkg.divisor = calc.divisor;
+            pkg.volumeCm3 = calc.volumeCm3;
+            pkg.volumeM3 = parseFloat((calc.volumeCm3 / 1000000).toFixed(4));
+            pkg.volumetricWeight = calc.volumetricWeight;
+            pkg.chargedWeight = calc.chargedWeight;
+            pkg.photos = editModalPhotos;
+
+            try {
+                await dbUpdatePackage(pkg);
+                showToast('Pembaruan paket dan foto berhasil disimpan!');
+                closeEditModal();
+                loadAllRecords();
+            } catch(e) {
+                showToast('Gagal update paket: ' + e.message);
+            }
+        }
+
+        // =====================================================================
+        // 12. EXPORT EXCEL, CSV, ZIP FOTO, DAN BACKUP/RESTORE
         // =====================================================================
         function exportToExcel() {
             if (allPackagesList.length === 0) {
@@ -1685,7 +2523,7 @@
 
                     let addedCount = 0;
                     for (const item of data) {
-                        delete item.id; // generate auto ID baru
+                        delete item.id;
                         await dbSavePackage(item);
                         addedCount++;
                     }
@@ -1710,7 +2548,7 @@
         }
 
         // =====================================================================
-        // 10. DASHBOARD STATISTIK PRODUKTIVITAS
+        // 13. DASHBOARD STATISTIK PRODUKTIVITAS
         // =====================================================================
         function updateDashboardStats(records) {
             document.getElementById('dashTotalAwb').innerText = records.length;
@@ -1724,7 +2562,7 @@
         }
 
         // =====================================================================
-        // 11. TEMA, SETTINGS, & UTILITIES
+        // 14. TEMA, SETTINGS, & UTILITIES
         // =====================================================================
         function toggleTheme() {
             document.body.classList.toggle('light-mode');
@@ -1738,7 +2576,7 @@
 
         function openSettingsModal() {
             const currentDiv = document.getElementById('inputDivisor').value;
-            const newDiv = prompt('Pengaturan Pembagi Volumetrik Default (misal: 6000 atau 5000):', currentDiv);
+            const newDiv = prompt('Pengaturan Pembagi Volumetrik Default (misal: 6000, 5000, atau 4000):', currentDiv);
             if (newDiv && !isNaN(newDiv) && Number(newDiv) > 0) {
                 document.getElementById('inputDivisor').value = newDiv;
                 calculateVolumes();
@@ -1761,7 +2599,7 @@
             });
         }
 
-        // Jalankan inisialisasi IndexedDB saat halaman dimuat
+        // Inisialisasi IndexedDB saat load
         window.addEventListener('DOMContentLoaded', () => {
             initIndexedDB();
         });
