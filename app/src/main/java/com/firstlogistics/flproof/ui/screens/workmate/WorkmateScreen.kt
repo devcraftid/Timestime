@@ -200,14 +200,22 @@ fun WorkmateScreen(
                         settings.apply {
                             javaScriptEnabled = true
                             domStorageEnabled = true
-                            databaseEnabled = true
                             allowFileAccess = true
                             allowContentAccess = true
                             mediaPlaybackRequiresUserGesture = false
                             cacheMode = WebSettings.LOAD_DEFAULT
-                            useWideViewPort = true
-                            loadWithOverviewMode = true
+                            // Kunci viewport ke ukuran layar HP native (mencegah geser horizontal / zoomed in)
+                            useWideViewPort = false
+                            loadWithOverviewMode = false
+                            setSupportZoom(false)
+                            builtInZoomControls = false
+                            displayZoomControls = false
                         }
+
+                        // Cegah scroll & overscroll horizontal pada WebView
+                        isHorizontalScrollBarEnabled = false
+                        isVerticalScrollBarEnabled = true
+                        overScrollMode = WebView.OVER_SCROLL_NEVER
 
                         // Connect native bridge for gallery photo saving
                         addJavascriptInterface(WorkmateNativeBridge(ctx), "AndroidBridge")

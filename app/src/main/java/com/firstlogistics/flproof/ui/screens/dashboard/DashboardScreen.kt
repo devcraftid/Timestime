@@ -313,21 +313,18 @@ fun DashboardScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(14.dp)
                     ) {
-                        // Icon Bulat Volume & Berat
+                        // Logo Bulat Volume & Kilo
                         Box(
                             modifier = Modifier
                                 .size(72.dp)
                                 .clip(CircleShape)
-                                .background(BrandBlue.copy(alpha = 0.15f))
-                                .border(3.dp, BrandBlue, CircleShape)
-                                .padding(4.dp),
-                            contentAlignment = Alignment.Center
+                                .border(2.5.dp, BrandOrange, CircleShape)
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.Straighten,
-                                contentDescription = "Volume & Berat",
-                                tint = BrandBlue,
-                                modifier = Modifier.size(36.dp)
+                            androidx.compose.foundation.Image(
+                                painter = androidx.compose.ui.res.painterResource(id = com.firstlogistics.flproof.R.drawable.logo_volume_kilo),
+                                contentDescription = "Volume & Kilo",
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
                             )
                         }
 
