@@ -38,6 +38,7 @@ import com.firstlogistics.flproof.ui.screens.seabank.SeabankScreen
 import com.firstlogistics.flproof.ui.screens.seabank.SeabankViewModel
 import com.firstlogistics.flproof.ui.screens.settings.SettingsScreen
 import com.firstlogistics.flproof.ui.screens.settings.SettingsViewModel
+import com.firstlogistics.flproof.ui.screens.workmate.WorkmateScreen
 import com.firstlogistics.flproof.ui.theme.NavyBackground
 
 @Composable
@@ -105,7 +106,8 @@ fun AppNavigation() {
                     onNavigateToGallery = { navController.navigate(Screen.Gallery.route) },
                     onNavigateToReports = { navController.navigate(Screen.Reports.route) },
                     onNavigateToBeforeAfter = { navController.navigate(Screen.BeforeAfter.route) },
-                    onNavigateToSeaBank = { navController.navigate(Screen.SeaBank.route) }
+                    onNavigateToSeaBank = { navController.navigate(Screen.SeaBank.route) },
+                    onNavigateToWorkMate = { navController.navigate(Screen.WorkMate.route) }
                 )
             }
 
@@ -256,6 +258,13 @@ fun AppNavigation() {
             composable(Screen.BeforeAfter.route) {
                 BeforeAfterCompareScreen(
                     evidenceRepository = app.evidenceRepository,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+
+            // Fitur Volume & Berat (First Logistics WorkMate)
+            composable(Screen.WorkMate.route) {
+                WorkmateScreen(
                     onNavigateBack = { navController.popBackStack() }
                 )
             }

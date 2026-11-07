@@ -40,7 +40,8 @@ fun DashboardScreen(
     onNavigateToGallery: () -> Unit,
     onNavigateToReports: () -> Unit,
     onNavigateToBeforeAfter: () -> Unit,
-    onNavigateToSeaBank: () -> Unit
+    onNavigateToSeaBank: () -> Unit,
+    onNavigateToWorkMate: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -284,6 +285,96 @@ fun DashboardScreen(
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
                                 contentDescription = "Buka SeaBank",
+                                tint = PureWhite,
+                                modifier = Modifier.size(15.dp)
+                            )
+                        }
+                    }
+                }
+            }
+
+            // Fitur Volume & Berat (First Logistics WorkMate)
+            item {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onNavigateToWorkMate() },
+                    shape = RoundedCornerShape(20.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = NavySurface
+                    ),
+                    border = androidx.compose.foundation.BorderStroke(1.5.dp, BrandBlue.copy(alpha = 0.6f)),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(14.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(14.dp)
+                    ) {
+                        // Icon Bulat Volume & Berat
+                        Box(
+                            modifier = Modifier
+                                .size(72.dp)
+                                .clip(CircleShape)
+                                .background(BrandBlue.copy(alpha = 0.15f))
+                                .border(3.dp, BrandBlue, CircleShape)
+                                .padding(4.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Straighten,
+                                contentDescription = "Volume & Berat",
+                                tint = BrandBlue,
+                                modifier = Modifier.size(36.dp)
+                            )
+                        }
+
+                        Column(modifier = Modifier.weight(1f)) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                            ) {
+                                Text(
+                                    text = "VOLUME & BERAT",
+                                    fontSize = 15.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = TextWhite
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(6.dp))
+                                        .background(BrandBlue.copy(alpha = 0.2f))
+                                        .padding(horizontal = 6.dp, vertical = 2.dp)
+                                ) {
+                                    Text(
+                                        text = "WORKMATE",
+                                        fontSize = 9.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = BrandBlue
+                                    )
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(3.dp))
+                            Text(
+                                text = "Scan AWB, input dimensi suara (Voice P×L×T), kalkulator volume & berat volumetrik",
+                                fontSize = 11.5.sp,
+                                color = TextSecondary,
+                                lineHeight = 16.sp
+                            )
+                        }
+
+                        Box(
+                            modifier = Modifier
+                                .size(36.dp)
+                                .clip(CircleShape)
+                                .background(BrandBlue),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
+                                contentDescription = "Buka WorkMate",
                                 tint = PureWhite,
                                 modifier = Modifier.size(15.dp)
                             )

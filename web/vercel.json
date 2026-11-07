@@ -2,6 +2,7 @@
   "version": 2,
   "cleanUrls": true,
   "rewrites": [
+    { "source": "/workmate", "destination": "/workmate.html" },
     { "source": "/evidence", "destination": "/index.html" },
     { "source": "/evidence/(.*)", "destination": "/index.html" }
   ]

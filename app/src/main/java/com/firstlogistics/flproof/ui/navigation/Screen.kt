@@ -20,6 +20,7 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector?
     object Locations : Screen("locations", "Lokasi", Icons.Default.LocationOn)
     object Settings : Screen("settings", "Pengaturan", Icons.Default.Settings)
     object BeforeAfter : Screen("before_after", "Before & After", Icons.Default.Compare)
+    object WorkMate : Screen("workmate", "Volume & Berat", Icons.Default.Straighten)
 }
 
 val bottomNavScreens = listOf(
